@@ -20,7 +20,7 @@ const createVideogamehandler = async (req, res) => {
         res.status(201).json(newVideogame);
     } catch ({ message }) {
         res.status(400).json({
-            error: `mi error ${message}`
+            error: message
         });
     }
 }
