@@ -1,10 +1,17 @@
-const { getVideogames, createVideogame } = require("../controllers/videogamesController");
+const { getVideogames, createVideogame, getVideogamesByName } = require("../controllers/videogamesController");
 
 
 const getVideogamesHandler = async (req, res) => {
-
+    const { name } = req.query;
+    console.log(name);
     try {
-        const videogames = await getVideogames();
+        let videogames = [];
+        if (name) {
+            videogames = await getVideogamesByName(name);
+            console.log(videogames);
+        } else {
+            videogames = await getVideogames();
+        }
         res.status(200).json(videogames);
     } catch ({ message }) {
         res.status(400).json({ error: message });

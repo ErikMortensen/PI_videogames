@@ -5,11 +5,42 @@ const axios = require('axios');
 const { Op } = require('sequelize');
 const { Videogame } = require('../db');
 
-const getVideogames = async () => {
-    const videogames = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)).data;
+const cleanArray = (arr) =>
+    arr.map(element => {
+        return {
+            id: element.id,
+            name: element.name,
+            description: element.description,
+            platforms: element.platform,
+            image: element.background_image,
+            released: element.released,
+            rating: element.rating
+        };
+    });
 
-    return videogames;
+
+const getVideogames = async () => {
+    const videogamesApi = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)).data.results;
+
+    const cleanVideogamesApi = cleanArray(videogamesApi);
+    const videogamesDB = await Videogame.findAll();
+
+    return [...cleanVideogamesApi, ...videogamesDB];
 };
+
+const getVideogamesByName = async (name) => {
+    const videogamesApi = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`)).data.results;
+    const cleanVideogamesApi = cleanArray(videogamesApi);
+
+    const videogamesDB = await Videogame.findAll({
+        where: {
+            name: {
+                [Op.iLike]: `%${name}%`
+            }
+        }
+    });
+    return [...cleanVideogamesApi, ...videogamesDB];
+}
 
 const createVideogame = async (name, description, platforms, image, released, rating) =>
 
@@ -20,5 +51,6 @@ const createVideogame = async (name, description, platforms, image, released, ra
 
 module.exports = {
     getVideogames,
+    getVideogamesByName,
     createVideogame
 };
