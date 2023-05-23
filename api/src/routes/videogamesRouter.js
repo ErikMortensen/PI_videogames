@@ -5,7 +5,7 @@ const videogamesRouter = Router();
 
 videogamesRouter.get('/', getVideogamesHandler);
 
-videogamesRouter.get('/:idVideogames', getVideogamesByIdHandler);
+videogamesRouter.get('/:id', getVideogamesByIdHandler);
 
 videogamesRouter.get('/name', getVideogamesByNameHandler);
 

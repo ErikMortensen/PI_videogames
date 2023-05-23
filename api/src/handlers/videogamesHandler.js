@@ -34,14 +34,12 @@ const getVideogamesByNameHandler = async (req, res) => {
 }
 
 const getVideogamesByIdHandler = async (req, res) => {
-    const { idVideogames } = req.params;
-    console.log(`id: ${idVideogames}`);
+    const { id } = req.params;
 
-    const source = isNaN(idVideogames) ? 'database' : 'api';
+    const source = isNaN(id) ? 'database' : 'api';
 
-    console.log(source);
     try {
-        const videogame = await getVideogamesById(idVideogames, source);
+        const videogame = await getVideogamesById(id, source);
 
         res.status(200).json(videogame);
     } catch ({ message }) {
