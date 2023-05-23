@@ -28,6 +28,14 @@ const getVideogames = async () => {
     return [...cleanVideogamesApi, ...videogamesDB];
 };
 
+const getVideogamesById = async (id, source) => {
+    const videogame = source === 'database'
+        ? await Videogame.findByPk(id)
+        : (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`)).data
+
+    return videogame;
+};
+
 const getVideogamesByName = async (name) => {
     const videogamesApi = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`)).data.results;
     const cleanVideogamesApi = cleanArray(videogamesApi);
@@ -51,6 +59,7 @@ const createVideogame = async (name, description, platforms, image, released, ra
 
 module.exports = {
     getVideogames,
+    getVideogamesById,
     getVideogamesByName,
     createVideogame
 };

@@ -1,6 +1,6 @@
-const { getVideogames, createVideogame, getVideogamesByName } = require("../controllers/videogamesController");
+const { getVideogames, createVideogame, getVideogamesByName, getVideogamesById } = require("../controllers/videogamesController");
 
-
+// sacar el name de acá!!
 const getVideogamesHandler = async (req, res) => {
     const { name } = req.query;
     console.log(name);
@@ -13,6 +13,37 @@ const getVideogamesHandler = async (req, res) => {
             videogames = await getVideogames();
         }
         res.status(200).json(videogames);
+    } catch ({ message }) {
+        res.status(400).json({ error: message });
+    }
+};
+
+const getVideogamesByNameHandler = async (req, res) => {
+    const { name } = req.query;
+    console.log(name);
+
+    try {
+        if (!name) throw Error('Debe especificar un name!');
+
+        const videogames = await getVideogamesByName(name);
+
+        res.status(200).json(videogames);
+    } catch ({ message }) {
+        res.status(400).json({ error: message });
+    }
+}
+
+const getVideogamesByIdHandler = async (req, res) => {
+    const { idVideogames } = req.params;
+    console.log(`id: ${idVideogames}`);
+
+    const source = isNaN(idVideogames) ? 'database' : 'api';
+
+    console.log(source);
+    try {
+        const videogame = await getVideogamesById(idVideogames, source);
+
+        res.status(200).json(videogame);
     } catch ({ message }) {
         res.status(400).json({ error: message });
     }
@@ -36,4 +67,6 @@ const createVideogamehandler = async (req, res) => {
 module.exports = {
     getVideogamesHandler,
     createVideogamehandler,
+    getVideogamesByNameHandler,
+    getVideogamesByIdHandler
 };
