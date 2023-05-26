@@ -31,22 +31,31 @@ const cleanData = (data) => {
     }
 };
 
+
 const getVideogames = async () => {
     const videogamesApi = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)).data.results;
 
     const cleanVideogamesApi = cleanData(videogamesApi);
-    const videogamesDB = await Videogame.findAll();
+    const videogamesDB = await Videogame.findAll({
+        attributes: {
+            exclude: ['description']
+        }
+    });
 
-    return [...cleanVideogamesApi, ...videogamesDB];
+    return [...videogamesDB, ...cleanVideogamesApi];
 };
 
 const getVideogamesById = async (id, source) => {
-    const videogame = source === 'database'
-        ? await Videogame.findByPk(id)
-        : (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`)).data
+    let videogame = source === 'database'
+        ? (await Videogame.findByPk(id)).dataValues
+        : (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`)).data;
 
-    return cleanData(videogame);
-    // return videogame;
+    console.log(videogame);
+    videogame = (source === 'database')
+        ? videogame
+        : (videogame = cleanData(videogame));
+
+    return videogame;
 };
 
 const getVideogamesByName = async (name) => {
