@@ -41,7 +41,6 @@ const getVideogames = async () => {
             exclude: ['description']
         }
     });
-
     return [...videogamesDB, ...cleanVideogamesApi];
 };
 
