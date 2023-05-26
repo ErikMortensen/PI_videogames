@@ -4,11 +4,7 @@ const { getVideogamesHandler, createVideogamehandler, getVideogamesByNameHandler
 const videogamesRouter = Router();
 
 videogamesRouter.get('/', getVideogamesHandler);
-
 videogamesRouter.get('/:id', getVideogamesByIdHandler);
-
-videogamesRouter.get('/name', getVideogamesByNameHandler);
-
 videogamesRouter.post('/', createVideogamehandler);
 
 module.exports = videogamesRouter;

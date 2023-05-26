@@ -18,11 +18,16 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     platforms: {
-      type: DataTypes.STRING,
-      // type: DataTypes.ARRAY(DataTypes.JSONB),
-      allowNull: false,
-      // defaultValue: []
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+      defaultValue: []
     },
+    // platforms: {
+    //   type: DataTypes.STRING,
+    //   // type: DataTypes.ARRAY(DataTypes.JSONB),
+    //   allowNull: false,
+    //   // defaultValue: []
+    // },
     image: {
       type: DataTypes.STRING,
       allowNull: false
@@ -40,11 +45,10 @@ module.exports = (sequelize) => {
   sequelize.define('genre', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     name: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false
     }
   }, { timestamps: false });

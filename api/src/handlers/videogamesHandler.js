@@ -1,14 +1,16 @@
 const { getVideogames, createVideogame, getVideogamesByName, getVideogamesById } = require("../controllers/videogamesController");
 
-// sacar el name de acá!!
 const getVideogamesHandler = async (req, res) => {
     const { name } = req.query;
-    console.log(name);
+    let videogames = [];
     try {
-        let videogames = [];
         if (name) {
             videogames = await getVideogamesByName(name);
-            console.log(videogames);
+
+            if (videogames.length === 0) {
+                res.status(404).json({ respuesta: `There are no video games with the name ${name}` });
+                return;
+            }
         } else {
             videogames = await getVideogames();
         }
@@ -18,20 +20,6 @@ const getVideogamesHandler = async (req, res) => {
     }
 };
 
-const getVideogamesByNameHandler = async (req, res) => {
-    const { name } = req.query;
-    console.log(name);
-
-    try {
-        if (!name) throw Error('Debe especificar un name!');
-
-        const videogames = await getVideogamesByName(name);
-
-        res.status(200).json(videogames);
-    } catch ({ message }) {
-        res.status(400).json({ error: message });
-    }
-}
 
 const getVideogamesByIdHandler = async (req, res) => {
     const { id } = req.params;
@@ -65,6 +53,6 @@ const createVideogamehandler = async (req, res) => {
 module.exports = {
     getVideogamesHandler,
     createVideogamehandler,
-    getVideogamesByNameHandler,
+    // getVideogamesByNameHandler,
     getVideogamesByIdHandler
 };
