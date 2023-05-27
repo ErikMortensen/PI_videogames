@@ -35,10 +35,10 @@ const getVideogamesByIdHandler = async (req, res) => {
 
 
 const createVideogamehandler = async (req, res) => {
-    const { name, description, platforms, image, released, rating } = req.body;
+    const { name, description, platforms, image, released, rating, genres } = req.body;
 
     try {
-        const newVideogame = await createVideogame(name, description, platforms, image, released, rating);
+        const newVideogame = await createVideogame(name, description, platforms, image, released, rating, genres);
         res.status(201).json(newVideogame);
     } catch ({ message }) {
         res.status(400).json({

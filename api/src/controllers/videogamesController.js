@@ -3,10 +3,11 @@ const { API_KEY } = process.env;
 
 const axios = require('axios');
 const { Op } = require('sequelize');
-const { Videogame } = require('../db');
+const { Videogame, Genre } = require('../db');
 
-const cleanData = (data) => {
-    if (Array.isArray(data)) {
+const cleanData = (data, source = 'api') => {
+
+    if (Array.isArray(data) && source === 'api') {
         return data.map(element => {
             return {
                 id: element.id,
@@ -15,10 +16,12 @@ const cleanData = (data) => {
                 platforms: element.platforms.map(p => p.platform.name),
                 image: element.background_image,
                 released: element.released,
-                rating: element.rating
+                rating: element.rating,
+                genres: element.genres.map(genre => genre.name)
             };
         });
-    } else {
+    }
+    if (!Array.isArray(data) && source === 'api') {
         return {
             id: data.id,
             name: data.name,
@@ -26,7 +29,20 @@ const cleanData = (data) => {
             platforms: data.platforms.map(p => p.platform.name),
             image: data.background_image,
             released: data.released,
-            rating: data.rating
+            rating: data.rating,
+            genres: data.genres.map(genre => genre.name)
+        };
+    }
+    if (source === 'database') {
+        return {
+            id: data.id,
+            name: data.name,
+            description: data.description,
+            platforms: data.platforms,
+            image: data.background_image,
+            released: data.released,
+            rating: data.rating,
+            genres: data.genres.map(genre => genre.name)
         };
     }
 };
@@ -46,15 +62,24 @@ const getVideogames = async () => {
 
 const getVideogamesById = async (id, source) => {
     let videogame = source === 'database'
-        ? (await Videogame.findByPk(id)).dataValues
+        ? (await Videogame.findOne({
+            where: {
+                id: id
+            },
+            include: {
+                model: Genre,
+                attributes: ['name'],
+                through: {
+                    attributes: []
+                }
+            }
+        })).dataValues
         : (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`)).data;
 
-    console.log(videogame);
-    videogame = (source === 'database')
-        ? videogame
-        : (videogame = cleanData(videogame));
 
-    return videogame;
+    return cleanData(videogame, source);
+
+    // return videogame;
 };
 
 const getVideogamesByName = async (name) => {
@@ -68,17 +93,37 @@ const getVideogamesByName = async (name) => {
             }
         }
     });
-    // console.log([...cleanVideogamesApi, ...videogamesDB]);
     return [...videogamesDB, ...cleanVideogamesApi].slice(0, 15);
 };
 
-const createVideogame = async (name, description, platforms, image, released, rating) => {
+const createVideogame = async (name, description, platforms, image, released, rating, genres) => {
     const game = (await getVideogamesByName(name)).find(game => game.name === name);
+    console.log('genres: ');
+    console.log(genres);
     if (!game) {
-        return await Videogame.create({ name, description, platforms, image, released, rating });
+        const newVideogame = await Videogame.create({ name, description, platforms, image, released, rating });
+
+        let genresId = await Genre.findAll({
+            where: {
+                name: genres
+            }
+        });
+        genresId = genresId.map(genre => genre.id);
+
+        console.log('genresId: ');
+        console.log(genresId);
+        await newVideogame.addGenres(genresId);
+        return newVideogame;
     }
     throw Error(`The game with the name '${name}' already exists!`);
 };
+// const createVideogame = async (name, description, platforms, image, released, rating) => {
+//     const game = (await getVideogamesByName(name)).find(game => game.name === name);
+//     if (!game) {
+//         return await Videogame.create({ name, description, platforms, image, released, rating });
+//     }
+//     throw Error(`The game with the name '${name}' already exists!`);
+// };
 
 
 
