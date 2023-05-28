@@ -1,0 +1,6 @@
+.navBarContainer{
+    display: flex;
+    background-color: aqua;
+    justify-content: space-around;
+    text-decoration: none;
+}
