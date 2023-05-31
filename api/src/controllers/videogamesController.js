@@ -39,7 +39,7 @@ const cleanData = (data, source = 'api') => {
             name: data.name,
             description: data.description,
             platforms: data.platforms,
-            image: data.background_image,
+            image: data.image,
             released: data.released,
             rating: data.rating,
             genres: data.genres.map(genre => genre.name)

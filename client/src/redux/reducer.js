@@ -2,6 +2,7 @@ const { GET_USERS } = require("./actions-types");
 
 const initialState = {
     users: [],
+    user: {},
 };
 
 const rootReducer = (state = initialState, action) => {
