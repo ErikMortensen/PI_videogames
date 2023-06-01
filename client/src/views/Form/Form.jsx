@@ -9,7 +9,7 @@ export const Form = () => {
     name: '',
     image: '',
     description: '',
-    platforms: ["Nintendo", "Play"],
+    platforms: [],
     released: '',
     rating: '',
     genres: [],
@@ -19,6 +19,8 @@ export const Form = () => {
   
   useEffect(() => {
     dispatch(getGenres());
+
+    return () => cleanForm;
   }, [])
   
   const genres = useSelector(state=>state.genres);
@@ -27,7 +29,7 @@ export const Form = () => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
-    })
+    });
   };
 
   const handleCheckboxChange = (e) => {
@@ -46,13 +48,43 @@ export const Form = () => {
     });
   }
 
+  const handleCheckboxPlatformsChange = (e) => {
+    const {value,checked} = e.target;
+    let updatedPlatforms = [...form.platforms];
+
+    if(checked){
+      updatedPlatforms.push(value);
+    } else {
+      updatedPlatforms = updatedPlatforms.filter(platform => platform !== value);
+    }
+
+    setForm({
+      ...form,
+      platforms: updatedPlatforms
+    });
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log(form);
     axios.post('http://localhost:3001/videogames', form)
       .then(res => alert(res))
+
+    cleanForm();
   }
+
+  const cleanForm = () => {
+    setForm({
+      name: '',
+      image: '',
+      description: '',
+      platforms: [],
+      released: '',
+      rating: '',
+      genres: [],
+    })
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -67,8 +99,54 @@ export const Form = () => {
       <textarea name="description" id="" cols="30" rows="10" value={form.description} onChange={handleChange}>
       </textarea>
 
-      {/* <label htmlFor="">Platforms: </label>
-      <input type="text" name="platforms" id="" value={form.platforms} onChange={handleChange}/> */}
+      <label htmlFor="">Platforms: </label>
+        <label htmlFor="">
+          <input type="checkbox" name="PlayStation" id="" value="PlayStation" onChange={handleCheckboxPlatformsChange}/>
+          PlayStation
+        </label>
+        <br />
+
+        <label htmlFor="">
+          <input type="checkbox" name="Xbox" id="" value="Xbox" onChange={handleCheckboxPlatformsChange}/>
+          Xbox
+        </label>
+        <br />
+
+        <label htmlFor="">
+          <input type="checkbox" name="Nintendo" id="" value="Nintendo" onChange={handleCheckboxPlatformsChange}/>
+          Nintendo
+        </label>
+        <br />
+
+        <label htmlFor="">
+          <input type="checkbox" name="iOS" id="" value="iOS" onChange={handleCheckboxPlatformsChange}/>
+          iOS
+        </label>
+        <br />
+
+        <label htmlFor="">
+          <input type="checkbox" name="Android" id="" value="Android" onChange={handleCheckboxPlatformsChange}/>
+          Android
+        </label>
+        <br />
+
+        <label htmlFor="">
+          <input type="checkbox" name="Wii" id="" value="Wii" onChange={handleCheckboxPlatformsChange}/>
+          Wii
+        </label>
+        <br />
+
+        <label htmlFor="">
+          <input type="checkbox" name="Game Boy" id="" value="Game Boy" onChange={handleCheckboxPlatformsChange}/>
+          Game Boy
+        </label>
+        <br />
+
+        <label htmlFor="">
+          <input type="checkbox" name="SEGA" id="" value="SEGA" onChange={handleCheckboxPlatformsChange}/>
+          SEGA
+        </label>
+        <br />
 
       <label htmlFor="">Released: </label>
       <input type="date" name="released" id="" value={form.released} onChange={handleChange}/>
