@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_USERS } from "./actions-types";
+import { GET_GENRES, GET_USERS } from "./actions-types";
 
 export const getUsers = () => {
     return async function (dispatch) {
@@ -7,4 +7,12 @@ export const getUsers = () => {
 
         dispatch({ type: GET_USERS, payload: users });
     };
+};
+
+export const getGenres = () => {
+    return async function (dispatch) {
+        const genres = (await axios.get('http://localhost:3001/genres')).data;
+
+        dispatch({ type: GET_GENRES, payload: genres })
+    }
 };

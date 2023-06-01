@@ -98,8 +98,7 @@ const getVideogamesByName = async (name) => {
 
 const createVideogame = async (name, description, platforms, image, released, rating, genres) => {
     const game = (await getVideogamesByName(name)).find(game => game.name === name);
-    console.log('genres: ');
-    console.log(genres);
+
     if (!game) {
         const newVideogame = await Videogame.create({ name, description, platforms, image, released, rating });
 
@@ -110,24 +109,11 @@ const createVideogame = async (name, description, platforms, image, released, ra
         });
         genresId = genresId.map(genre => genre.id);
 
-        console.log('genresId: ');
-        console.log(genresId);
         await newVideogame.addGenres(genresId);
         return newVideogame;
     }
     throw Error(`The game with the name '${name}' already exists!`);
 };
-// const createVideogame = async (name, description, platforms, image, released, rating) => {
-//     const game = (await getVideogamesByName(name)).find(game => game.name === name);
-//     if (!game) {
-//         return await Videogame.create({ name, description, platforms, image, released, rating });
-//     }
-//     throw Error(`The game with the name '${name}' already exists!`);
-// };
-
-
-
-
 
 module.exports = {
     getVideogames,

@@ -22,12 +22,6 @@ module.exports = (sequelize) => {
       allowNull: true,
       defaultValue: []
     },
-    // platforms: {
-    //   type: DataTypes.STRING,
-    //   // type: DataTypes.ARRAY(DataTypes.JSONB),
-    //   allowNull: false,
-    //   // defaultValue: []
-    // },
     image: {
       type: DataTypes.STRING,
       allowNull: false
