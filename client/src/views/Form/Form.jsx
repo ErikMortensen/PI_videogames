@@ -15,6 +15,17 @@ export const Form = () => {
     genres: [],
   });
 
+  const [checkboxesPlatforms, setCheckboxesPlatforms] = useState({
+      PlayStation: false,
+      Xbox: false,
+      // Nintendo: false,
+      // iOS: false,
+      // Android: false,
+      // Wii: false,
+      // Game_Boy: false,
+      // SEGA: false,
+  })
+
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -32,7 +43,7 @@ export const Form = () => {
     });
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxGenresChange = (e) => {
     const {value,checked} = e.target;
     let updatedGenres = [...form.genres];
 
@@ -49,7 +60,7 @@ export const Form = () => {
   }
 
   const handleCheckboxPlatformsChange = (e) => {
-    const {value,checked} = e.target;
+    const {name, value, checked} = e.target;
     let updatedPlatforms = [...form.platforms];
 
     if(checked){
@@ -62,12 +73,19 @@ export const Form = () => {
       ...form,
       platforms: updatedPlatforms
     });
+
+    setCheckboxesPlatforms({
+      ...checkboxesPlatforms,
+      [name]: checked
+    });
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log(form);
+
+    // Modificar este alert que da asco!!
     axios.post('http://localhost:3001/videogames', form)
       .then(res => alert(res))
 
@@ -84,6 +102,17 @@ export const Form = () => {
       rating: '',
       genres: [],
     })
+
+    setCheckboxesPlatforms({
+      PlayStation: false,
+      Xbox: false,
+      // Nintendo: false,
+      // iOS: false,
+      // Android: false,
+      // Wii: false,
+      // Game_Boy: false,
+      // SEGA: false,
+    });
   };
 
   return (
@@ -101,18 +130,18 @@ export const Form = () => {
 
       <label htmlFor="">Platforms: </label>
         <label htmlFor="">
-          <input type="checkbox" name="PlayStation" id="" value="PlayStation" onChange={handleCheckboxPlatformsChange}/>
+          <input type="checkbox" name="PlayStation" id="" value="PlayStation" checked={checkboxesPlatforms.PlayStation} onChange={handleCheckboxPlatformsChange}/>
           PlayStation
         </label>
         <br />
 
         <label htmlFor="">
-          <input type="checkbox" name="Xbox" id="" value="Xbox" onChange={handleCheckboxPlatformsChange}/>
+          <input type="checkbox" name="Xbox" id="" value="Xbox" checked={checkboxesPlatforms.Xbox} onChange={handleCheckboxPlatformsChange}/>
           Xbox
         </label>
         <br />
 
-        <label htmlFor="">
+        {/* <label htmlFor="">
           <input type="checkbox" name="Nintendo" id="" value="Nintendo" onChange={handleCheckboxPlatformsChange}/>
           Nintendo
         </label>
@@ -145,7 +174,7 @@ export const Form = () => {
         <label htmlFor="">
           <input type="checkbox" name="SEGA" id="" value="SEGA" onChange={handleCheckboxPlatformsChange}/>
           SEGA
-        </label>
+        </label> */}
         <br />
 
       <label htmlFor="">Released: </label>
@@ -160,7 +189,7 @@ export const Form = () => {
           return(
             <div>
               <label htmlFor="">
-                <input type="checkbox" name={genre.name} id="" value={genre.name} onChange={handleCheckboxChange}/>
+                <input type="checkbox" name={genre.name} id="" value={genre.name} onChange={handleCheckboxGenresChange}/>
                 {genre.name}
               </label>
               <br />
