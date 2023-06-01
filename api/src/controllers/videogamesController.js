@@ -13,11 +13,11 @@ const cleanData = (data, source = 'api') => {
                 id: element.id,
                 name: element.name,
                 description: element.description,
-                platforms: element.platforms.map(p => p.platform.name),
+                platforms: element.platforms?.map(p => p.platform.name),
                 image: element.background_image,
                 released: element.released,
                 rating: element.rating,
-                genres: element.genres.map(genre => genre.name)
+                genres: element.genres?.map(genre => genre.name)
             };
         });
     }
@@ -26,11 +26,11 @@ const cleanData = (data, source = 'api') => {
             id: data.id,
             name: data.name,
             description: data.description,
-            platforms: data.platforms.map(p => p.platform.name),
+            platforms: data.platforms?.map(p => p.platform.name),
             image: data.background_image,
             released: data.released,
             rating: data.rating,
-            genres: data.genres.map(genre => genre.name)
+            genres: data.genres?.map(genre => genre.name)
         };
     }
     if (source === 'database') {
@@ -42,7 +42,7 @@ const cleanData = (data, source = 'api') => {
             image: data.image,
             released: data.released,
             rating: data.rating,
-            genres: data.genres.map(genre => genre.name)
+            genres: data.genres?.map(genre => genre.name)
         };
     }
 };
@@ -78,12 +78,11 @@ const getVideogamesById = async (id, source) => {
 
 
     return cleanData(videogame, source);
-
-    // return videogame;
 };
 
 const getVideogamesByName = async (name) => {
     const videogamesApi = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`)).data.results;
+
     const cleanVideogamesApi = cleanData(videogamesApi);
 
     const videogamesDB = await Videogame.findAll({
@@ -113,6 +112,8 @@ const createVideogame = async (name, description, platforms, image, released, ra
         return newVideogame;
     }
     throw Error(`The game with the name '${name}' already exists!`);
+
+
 };
 
 module.exports = {

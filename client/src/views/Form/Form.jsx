@@ -18,12 +18,12 @@ export const Form = () => {
   const [checkboxesPlatforms, setCheckboxesPlatforms] = useState({
       PlayStation: false,
       Xbox: false,
-      // Nintendo: false,
-      // iOS: false,
-      // Android: false,
-      // Wii: false,
-      // Game_Boy: false,
-      // SEGA: false,
+      Nintendo: false,
+      iOS: false,
+      Android: false,
+      Wii: false,
+      Game_Boy: false,
+      SEGA: false,
   })
 
   const dispatch = useDispatch();
@@ -106,12 +106,12 @@ export const Form = () => {
     setCheckboxesPlatforms({
       PlayStation: false,
       Xbox: false,
-      // Nintendo: false,
-      // iOS: false,
-      // Android: false,
-      // Wii: false,
-      // Game_Boy: false,
-      // SEGA: false,
+      Nintendo: false,
+      iOS: false,
+      Android: false,
+      Wii: false,
+      Game_Boy: false,
+      SEGA: false,
     });
   };
 
@@ -141,40 +141,40 @@ export const Form = () => {
         </label>
         <br />
 
-        {/* <label htmlFor="">
-          <input type="checkbox" name="Nintendo" id="" value="Nintendo" onChange={handleCheckboxPlatformsChange}/>
+        <label htmlFor="">
+          <input type="checkbox" name="Nintendo" id="" value="Nintendo" checked={checkboxesPlatforms.Nintendo} onChange={handleCheckboxPlatformsChange}/>
           Nintendo
         </label>
         <br />
 
         <label htmlFor="">
-          <input type="checkbox" name="iOS" id="" value="iOS" onChange={handleCheckboxPlatformsChange}/>
+          <input type="checkbox" name="iOS" id="" value="iOS" checked={checkboxesPlatforms.iOS} onChange={handleCheckboxPlatformsChange}/>
           iOS
         </label>
         <br />
 
         <label htmlFor="">
-          <input type="checkbox" name="Android" id="" value="Android" onChange={handleCheckboxPlatformsChange}/>
+          <input type="checkbox" name="Android" id="" value="Android" checked={checkboxesPlatforms.Android} onChange={handleCheckboxPlatformsChange}/>
           Android
         </label>
         <br />
 
         <label htmlFor="">
-          <input type="checkbox" name="Wii" id="" value="Wii" onChange={handleCheckboxPlatformsChange}/>
+          <input type="checkbox" name="Wii" id="" value="Wii" checked={checkboxesPlatforms.Wii} onChange={handleCheckboxPlatformsChange}/>
           Wii
         </label>
         <br />
 
         <label htmlFor="">
-          <input type="checkbox" name="Game Boy" id="" value="Game Boy" onChange={handleCheckboxPlatformsChange}/>
+          <input type="checkbox" name="Game_Boy" id="" value="Game Boy" checked={checkboxesPlatforms.Game_Boy} onChange={handleCheckboxPlatformsChange}/>
           Game Boy
         </label>
         <br />
 
         <label htmlFor="">
-          <input type="checkbox" name="SEGA" id="" value="SEGA" onChange={handleCheckboxPlatformsChange}/>
+          <input type="checkbox" name="SEGA" id="" value="SEGA" checked={checkboxesPlatforms.SEGA} onChange={handleCheckboxPlatformsChange}/>
           SEGA
-        </label> */}
+        </label>
         <br />
 
       <label htmlFor="">Released: </label>
