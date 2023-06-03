@@ -24,7 +24,11 @@ export const Form = () => {
       Wii: false,
       Game_Boy: false,
       SEGA: false,
-  })
+  });
+
+  //agregue esto
+  const [checkboxesGenres, setCheckboxesGenres] = useState({
+  });
 
   const dispatch = useDispatch();
   
@@ -43,8 +47,25 @@ export const Form = () => {
     });
   };
 
+  // comente esto NO BORRAR !!!! hasta que no funcione lo otro
+  // const handleCheckboxGenresChange = (e) => {
+  //   const {value,checked} = e.target;
+  //   let updatedGenres = [...form.genres];
+
+  //   if(checked){
+  //     updatedGenres.push(value);
+  //   } else {
+  //     updatedGenres = updatedGenres.filter(genre => genre !== value);
+  //   }
+
+  //   setForm({
+  //     ...form,
+  //     genres: updatedGenres
+  //   });
+  // }
+
   const handleCheckboxGenresChange = (e) => {
-    const {value,checked} = e.target;
+    const {name, value, checked} = e.target;
     let updatedGenres = [...form.genres];
 
     if(checked){
@@ -56,6 +77,11 @@ export const Form = () => {
     setForm({
       ...form,
       genres: updatedGenres
+    });
+
+    setCheckboxesGenres({
+      ...checkboxesGenres,
+      [name]: checked
     });
   }
 
@@ -93,6 +119,7 @@ export const Form = () => {
   }
 
   const cleanForm = () => {
+
     setForm({
       name: '',
       image: '',
@@ -113,6 +140,16 @@ export const Form = () => {
       Game_Boy: false,
       SEGA: false,
     });
+
+    const arrayGenres = {...checkboxesGenres};
+
+    for (let property in arrayGenres) {
+        arrayGenres[property] = false;
+    }
+
+
+    setCheckboxesGenres({...checkboxesGenres, ...arrayGenres});
+
   };
 
   return (
@@ -183,13 +220,14 @@ export const Form = () => {
       <label htmlFor="">Rating: </label>
       <input type="text" name="rating" id="" value={form.rating} onChange={handleChange}/>
 
+    {/* le agregue el checked sacar si no funciona */}
       <label htmlFor="">Genres: </label>
       {
         genres?.map(genre => {
           return(
             <div>
               <label htmlFor="">
-                <input type="checkbox" name={genre.name} id="" value={genre.name} onChange={handleCheckboxGenresChange}/>
+                <input type="checkbox" name={genre.name} id="" value={genre.name} checked={checkboxesGenres[genre.name]} onChange={handleCheckboxGenresChange}/>
                 {genre.name}
               </label>
               <br />

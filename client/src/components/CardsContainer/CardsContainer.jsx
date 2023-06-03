@@ -4,19 +4,20 @@ import style from "./CardsContainer.module.css";
 
 export const CardsContainer = () => {
 
-    const users = useSelector(state=>state.users);
+    const games = useSelector(state=>state.games);
 
     return (
         <div className={style.cardsContainer}>
             { 
-                users.map(user => {
+                games.map(game => {
                     return <Card
-                        id={user.id}
-                        name={user.name}
-                        platforms={user.platforms}
-                        image={user.image}
-                        released={user.released}
-                        rating={user.rating}
+                        id={game.id}
+                        name={game.name}
+                        // platforms={user.platforms}
+                        image={game.image}
+                        // released={user.released}
+                        // rating={user.rating}
+                        genres={game.genres}
                     />
                 })
             }
