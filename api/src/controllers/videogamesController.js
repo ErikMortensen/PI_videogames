@@ -104,9 +104,40 @@ const getVideogamesById = async (id, source) => {
 };
 
 const getVideogamesByName = async (name) => {
-    const videogamesApi = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`)).data.results;
+    let videogamesApi = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`)).data.results;
 
-    const cleanVideogamesApi = cleanData(videogamesApi);
+    videogamesApi = cleanData(videogamesApi);
+
+
+
+    videogamesApi.sort((a, b) => {
+        // Obtenemos la longitud de la subcadena común más larga
+        const commonLengthA = getCommonSubstringLength(a.name.toLowerCase(), name.toLowerCase());
+        const commonLengthB = getCommonSubstringLength(b.name.toLowerCase(), name.toLowerCase());
+
+        // Comparamos la longitud de la subcadena común
+        return commonLengthB - commonLengthA;
+    });
+
+    videogamesApi.sort((a, b) => {
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
+
+        // Si `nameA` coincide exactamente con `name`, colocamos `a` antes que `b`
+        if (nameA === name) {
+            return -1;
+        }
+        // Si `nameB` coincide exactamente con `name`, colocamos `b` antes que `a`
+        else if (nameB === name) {
+            return 1;
+        }
+        // En cualquier otro caso, mantenemos el orden original
+        else {
+            return 0;
+        }
+    });
+    // Función auxiliar para contar la cantidad de caracteres coincidentes
+
 
     const videogamesDB = await Videogame.findAll({
         where: {
@@ -115,8 +146,36 @@ const getVideogamesByName = async (name) => {
             }
         }
     });
-    return [...videogamesDB, ...cleanVideogamesApi].slice(0, 15);
+    return [...videogamesDB, ...videogamesApi].slice(0, 15);
 };
+
+function getCommonSubstringLength(str, target) {
+    let maxLength = 0;
+    for (let i = 0; i < str.length; i++) {
+        for (let j = i + 1; j <= str.length; j++) {
+            const substring = str.slice(i, j);
+            if (target.includes(substring)) {
+                maxLength = Math.max(maxLength, substring.length);
+            }
+        }
+    }
+    return maxLength;
+}
+
+// const getVideogamesByName = async (name) => {
+//     const videogamesApi = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`)).data.results;
+
+//     const cleanVideogamesApi = cleanData(videogamesApi);
+
+//     const videogamesDB = await Videogame.findAll({
+//         where: {
+//             name: {
+//                 [Op.iLike]: `%${name}%`
+//             }
+//         }
+//     });
+//     return [...videogamesDB, ...cleanVideogamesApi].slice(0, 15);
+// };
 
 const createVideogame = async (name, description, platforms, image, released, rating, genres) => {
     const game = (await getVideogamesByName(name)).find(game => game.name === name);
