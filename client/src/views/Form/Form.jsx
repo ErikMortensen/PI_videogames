@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import axios from 'axios';
 import { getGenres } from "../../redux/actions";
+import { NavBar } from "../../components/NavBar/NavBar";
 
 
 export const Form = () => {
@@ -26,9 +27,8 @@ export const Form = () => {
       SEGA: false,
   });
 
-  //agregue esto
   const [checkboxesGenres, setCheckboxesGenres] = useState({
-  });
+  });  
 
   const dispatch = useDispatch();
   
@@ -36,7 +36,7 @@ export const Form = () => {
     dispatch(getGenres());
 
     return () => cleanForm;
-  }, [])
+  }, []);
   
   const genres = useSelector(state=>state.genres);
 
@@ -46,23 +46,6 @@ export const Form = () => {
       [e.target.name]: e.target.value,
     });
   };
-
-  // comente esto NO BORRAR !!!! hasta que no funcione lo otro
-  // const handleCheckboxGenresChange = (e) => {
-  //   const {value,checked} = e.target;
-  //   let updatedGenres = [...form.genres];
-
-  //   if(checked){
-  //     updatedGenres.push(value);
-  //   } else {
-  //     updatedGenres = updatedGenres.filter(genre => genre !== value);
-  //   }
-
-  //   setForm({
-  //     ...form,
-  //     genres: updatedGenres
-  //   });
-  // }
 
   const handleCheckboxGenresChange = (e) => {
     const {name, value, checked} = e.target;
@@ -83,7 +66,7 @@ export const Form = () => {
       ...checkboxesGenres,
       [name]: checked
     });
-  }
+  };
 
   const handleCheckboxPlatformsChange = (e) => {
     const {name, value, checked} = e.target;
@@ -104,19 +87,19 @@ export const Form = () => {
       ...checkboxesPlatforms,
       [name]: checked
     });
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(form);
-
-    // Modificar este alert que da asco!!
-    axios.post('http://localhost:3001/videogames', form)
-      .then(res => alert(res))
-
+    try {      
+      axios.post('http://localhost:3001/videogames', form)
+        .then(res => alert(`The game has been created successfully!`));
+    } catch ({message}) {
+      alert(message);
+    }
     cleanForm();
-  }
+  };
 
   const cleanForm = () => {
 
@@ -146,13 +129,14 @@ export const Form = () => {
     for (let property in arrayGenres) {
         arrayGenres[property] = false;
     }
-
-
     setCheckboxesGenres({...checkboxesGenres, ...arrayGenres});
 
   };
 
   return (
+    <div>
+
+    <NavBar searchBar={false}/>
     <form onSubmit={handleSubmit}>
       <h2>Formulario de creación</h2>
       <label htmlFor="">Name: </label>
@@ -220,7 +204,6 @@ export const Form = () => {
       <label htmlFor="">Rating: </label>
       <input type="text" name="rating" id="" value={form.rating} onChange={handleChange}/>
 
-    {/* le agregue el checked sacar si no funciona */}
       <label htmlFor="">Genres: </label>
       {
         genres?.map(genre => {
@@ -236,5 +219,6 @@ export const Form = () => {
       })}
       <button type="submit">Create</button>
     </form>
+    </div>
   )
 }

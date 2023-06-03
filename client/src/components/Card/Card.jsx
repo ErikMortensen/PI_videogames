@@ -11,8 +11,8 @@ export const Card = ({id,name,image,genres}) => {
         <img src={image} alt="imagen videogame" />
         {/* <h3>ID: {id}</h3> */}
         <h3>Name: {name}</h3>
-        <h3>Genres: {genres?.map(genre => {
-                    return <h5>{genre}</h5>
+        <h3>Genres: {genres?.map((genre,key) => {
+                    return <h5 key={key}>{genre}</h5>
                   })}</h3>
         {/* <h3>Platforms: {platforms}</h3> */}
         {/* <h3>Released: {released}</h3> */}

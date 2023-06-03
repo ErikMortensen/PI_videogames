@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useParams, Link} from "react-router-dom";
 import axios from "axios";
+import { NavBar } from "../../components/NavBar/NavBar";
 
 export const Detail = () => {
   const {id} = useParams();
@@ -28,6 +29,8 @@ export const Detail = () => {
 
   return (
     <div>
+      <NavBar searchBar={false}/>
+
       <Link to='/home'>Volver</Link>
       <h3>ID: {id}</h3>
       <h3>Name: {name}</h3>
