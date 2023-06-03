@@ -33,6 +33,19 @@ const cleanData = (data, source = 'api') => {
             genres: data.genres?.map(genre => genre.name)
         };
     }
+    if (source === 'database' && Array.isArray(data)) {
+        return data.map((game) => {
+            return {
+                id: game.id,
+                name: game.name,
+                platforms: game.platforms,
+                image: game.image,
+                released: game.released,
+                rating: game.rating,
+                genres: game.genres?.map((genre) => genre.name)
+            };
+        });
+    }
     if (source === 'database') {
         return {
             id: data.id,
@@ -49,15 +62,25 @@ const cleanData = (data, source = 'api') => {
 
 
 const getVideogames = async () => {
-    const videogamesApi = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)).data.results;
+    let videogamesApi = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)).data.results;
 
-    const cleanVideogamesApi = cleanData(videogamesApi);
-    const videogamesDB = await Videogame.findAll({
+    videogamesApi = cleanData(videogamesApi);
+    let videogamesDB = await Videogame.findAll({
         attributes: {
             exclude: ['description']
-        }
+        },
+        include: {
+            model: Genre,
+            attributes: ['name'],
+            through: {
+                attributes: []
+            }
+        },
     });
-    return [...videogamesDB, ...cleanVideogamesApi];
+
+    videogamesDB = cleanData(videogamesDB, 'database');
+
+    return [...videogamesDB, ...videogamesApi];
 };
 
 const getVideogamesById = async (id, source) => {
