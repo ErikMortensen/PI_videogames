@@ -136,26 +136,6 @@ const getVideogamesByName = async (name) => {
         }
     });
 
-    // videogamesApi.sort((a, b) => {
-    //     const nameA = a.name.toLowerCase();
-    //     const nameB = b.name.toLowerCase();
-
-    //     // Si `nameA` coincide exactamente con `name`, colocamos `a` antes que `b`
-    //     if (nameA === name) {
-    //         return -1;
-    //     }
-    //     // Si `nameB` coincide exactamente con `name`, colocamos `b` antes que `a`
-    //     else if (nameB === name) {
-    //         return 1;
-    //     }
-    //     // En cualquier otro caso, mantenemos el orden original
-    //     else {
-    //         return 0;
-    //     }
-    // });
-    // Función auxiliar para contar la cantidad de caracteres coincidentes
-
-
     const videogamesDB = await Videogame.findAll({
         where: {
             name: {
@@ -178,21 +158,6 @@ function getCommonSubstringLength(str, target) {
     }
     return maxLength;
 }
-
-// const getVideogamesByName = async (name) => {
-//     const videogamesApi = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`)).data.results;
-
-//     const cleanVideogamesApi = cleanData(videogamesApi);
-
-//     const videogamesDB = await Videogame.findAll({
-//         where: {
-//             name: {
-//                 [Op.iLike]: `%${name}%`
-//             }
-//         }
-//     });
-//     return [...videogamesDB, ...cleanVideogamesApi].slice(0, 15);
-// };
 
 const createVideogame = async (name, description, platforms, image, released, rating, genres) => {
     const game = (await getVideogamesByName(name)).find(game => game.name === name);

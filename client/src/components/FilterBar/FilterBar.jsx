@@ -1,5 +1,5 @@
 import { useDispatch, useSelector} from "react-redux";
-import { cleanFilters, filterByGenre, sortAsc } from "../../redux/actions";
+import { cleanFilters, filterByGenre, filterByOrigen, sortAsc } from "../../redux/actions";
 import { useState } from "react";
 
 export const FilterBar = () => {
@@ -19,6 +19,7 @@ export const FilterBar = () => {
     });
 
     const [selectGenreValue, setSelectGenreValue] = useState('');
+    const [selectOriginValue, setSelectOriginValue] = useState('');
     
     const handleChange = (e) => {
         dispatch(sortAsc(e.target.value));
@@ -38,9 +39,13 @@ export const FilterBar = () => {
     };
 
     const handleSelectGenreChange = (e) =>{
-        console.log(e.target);
         setSelectGenreValue(e.target.value);
         dispatch(filterByGenre(e.target.value));
+    };
+
+    const handleSelectOrigenChange = (e) => {
+        setSelectOriginValue(e.target.value);
+        dispatch(filterByOrigen(e.target.value));
     };
 
     const handleClean = (e) => {
@@ -48,6 +53,7 @@ export const FilterBar = () => {
         dispatch(cleanFilters());
         setSelectedOption(initialState);
         setSelectGenreValue('all');
+        setSelectOriginValue('all');
     };
 
     return (
@@ -66,12 +72,12 @@ export const FilterBar = () => {
                 }
             </select>
 
-            {/* <label htmlFor="">Origen</label>
-            <select name="origen" id="" onChange={handleSelectOrigenChange}>
+            <label htmlFor="">Origen</label>
+            <select name="origen" id="" onChange={handleSelectOrigenChange} value={selectOriginValue}>
                 <option value="all">All</option>
                 <option value="api">API</option>
                 <option value="database">Database</option>
-            </select> */}
+            </select>
 
             <p>Sort Name</p>
             <input type="radio" name="name" id="NameAsc" value="NameAsc" onChange={handleChange} checked={selectedOption.NameAsc}/>

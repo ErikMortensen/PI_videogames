@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS, FILTER_BY_GENRE } from "./actions-types";
+import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS, FILTER_BY_GENRE, FILTER_BY_ORIGEN } from "./actions-types";
 
 export const getVideogames = () => {
     return async function (dispatch) {
@@ -71,6 +71,24 @@ export const filterByGenre = (genre) => {
             : state.gamesCopy.filter(game => game.genres.includes(genre));
 
         dispatch({ type: FILTER_BY_GENRE, payload: filtered });
+    };
+};
+
+export const filterByOrigen = (origen) => {
+    return async function (dispatch, getState) {
+        const state = getState();
+        let filtered = [];
+
+        if (origen === 'all') {
+            filtered = state.gamesCopy;
+        } else {
+            filtered = origen === 'database'
+                ? state.gamesCopy.filter(game => isNaN(game.id))
+                : state.gamesCopy.filter(game => !isNaN(game.id));
+        }
+
+
+        dispatch({ type: FILTER_BY_ORIGEN, payload: filtered });
     };
 };
 
