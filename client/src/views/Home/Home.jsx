@@ -13,7 +13,6 @@ export const Home = () => {
 
     const [filtered, setFiltered] = useState(allGames);
     const [searchString, setSearchString] = useState('');
-
     const handleChange = (e) => {
       setSearchString(e.target.value);
 

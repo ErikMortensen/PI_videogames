@@ -62,7 +62,14 @@ const cleanData = (data, source = 'api') => {
 
 
 const getVideogames = async () => {
-    let videogamesApi = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)).data.results;
+    // let videogamesApi = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)).data.results;
+    let videogamesApi = [];
+
+    for (let i = 1; i < 5; i++) {
+        const { data } = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=${i}&page_size=25`);
+
+        videogamesApi.push(...data.results);
+    }
 
     videogamesApi = cleanData(videogamesApi);
     let videogamesDB = await Videogame.findAll({
