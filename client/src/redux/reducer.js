@@ -1,8 +1,8 @@
-const { GET_GAMES, GET_GENRES, GET_GAMES_BY_NAME } = require("./actions-types");
+const { GET_GAMES, GET_GENRES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS } = require("./actions-types");
 
 const initialState = {
     games: [],
-    // gamesCopy: [],
+    gamesCopy: [],
     gamesByName: [],
     game: {},
     genres: []
@@ -14,7 +14,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 games: action.payload,
-                // gamesCopy: action.payload
+                gamesCopy: action.payload
             };
 
         case GET_GAMES_BY_NAME:
@@ -25,6 +25,18 @@ const rootReducer = (state = initialState, action) => {
 
         case GET_GENRES:
             return { ...state, genres: action.payload };
+
+        case SORT_ARRAY_ASC:
+            return {
+                ...state,
+                games: action.payload
+            };
+
+        case CLEAN_FILTERS:
+            return {
+                ...state,
+                games: state.gamesCopy
+            };
 
         default:
             return { ...state };

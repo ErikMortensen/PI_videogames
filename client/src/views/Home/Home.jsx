@@ -14,7 +14,7 @@ export const Home = () => {
     const [searchString, setSearchString] = useState('');
 
     const handleChange = (e) => {
-      console.log(e.target.value);
+      // console.log(e.target.value);
       setSearchString(e.target.value);
 
       dispatch(getVideogamesByName(e.target.value));

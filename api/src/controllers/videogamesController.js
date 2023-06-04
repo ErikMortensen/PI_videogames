@@ -118,17 +118,16 @@ const getVideogamesByName = async (name) => {
         // Comparamos la longitud de la subcadena común
         return commonLengthB - commonLengthA;
     });
-
     videogamesApi.sort((a, b) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
 
         // Si `nameA` coincide exactamente con `name`, colocamos `a` antes que `b`
-        if (nameA === name) {
+        if (nameA.includes(name)) {
             return -1;
         }
         // Si `nameB` coincide exactamente con `name`, colocamos `b` antes que `a`
-        else if (nameB === name) {
+        else if (nameB.includes(name)) {
             return 1;
         }
         // En cualquier otro caso, mantenemos el orden original
@@ -136,6 +135,24 @@ const getVideogamesByName = async (name) => {
             return 0;
         }
     });
+
+    // videogamesApi.sort((a, b) => {
+    //     const nameA = a.name.toLowerCase();
+    //     const nameB = b.name.toLowerCase();
+
+    //     // Si `nameA` coincide exactamente con `name`, colocamos `a` antes que `b`
+    //     if (nameA === name) {
+    //         return -1;
+    //     }
+    //     // Si `nameB` coincide exactamente con `name`, colocamos `b` antes que `a`
+    //     else if (nameB === name) {
+    //         return 1;
+    //     }
+    //     // En cualquier otro caso, mantenemos el orden original
+    //     else {
+    //         return 0;
+    //     }
+    // });
     // Función auxiliar para contar la cantidad de caracteres coincidentes
 
 
