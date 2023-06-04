@@ -1,15 +1,17 @@
-import { useDispatch} from "react-redux";
-import { cleanFilters, sortAsc } from "../../redux/actions";
+import { useDispatch, useSelector} from "react-redux";
+import { cleanFilters, filterByGenre, sortAsc } from "../../redux/actions";
 import { useState } from "react";
 
 export const FilterBar = () => {
     const dispatch = useDispatch();
 
+    const genres = useSelector(state=>state.genres);
+
     const initialState = {
-        NameAsc: null,
-        NameDesc: null,
-        RatingAsc: null,
-        RatingDesc: null
+        NameAsc: false,
+        NameDesc: false,
+        RatingAsc: false,
+        RatingDesc: false
     };
 
     const [selectedOption, setSelectedOption] = useState({
@@ -33,6 +35,11 @@ export const FilterBar = () => {
         });
     };
 
+    const handleSelectChange = (e) =>{
+        console.log(e.target.value);
+        dispatch(filterByGenre(e.target.value));
+    };
+
     const handleClean = (e) => {
         e.preventDefault();
         dispatch(cleanFilters());
@@ -42,18 +49,31 @@ export const FilterBar = () => {
     return (
         <div>
         <form action="">
-        <p>Sort Name</p>
-        <input type="radio" name="name" id="NameAsc" value="NameAsc" onChange={handleChange} checked={selectedOption.NameAsc}/>
-        <label htmlFor="">Ascending</label><br/>
-        <input type="radio" name="name" id="NameDesc" value="NameDesc" onChange={handleChange} checked={selectedOption.NameDesc}/>
-        <label htmlFor="">Descending</label><br/>
-        <p>Sort Rating</p>
-        <input type="radio" name="rating" id="RatingAsc" value="RatingAsc" onChange={handleChange} checked={selectedOption.RatingAsc}/>
-        <label htmlFor="">Ascending</label><br/>
-        <input type="radio" name="rating" id="RatingDesc" value="RatingDesc" onChange={handleChange} checked={selectedOption.RatingDesc}/>
-        <label htmlFor="">Descending</label><br/>
+            <label htmlFor="">Genre</label>
+            <select name="genres" id="" onChange={handleSelectChange}>
+                <option value='all'>All</option>
 
-        <button onClick={handleClean}>Clean</button>
+                {
+                    genres.map(genre => {
+                        return(
+                            <option value={genre.name}>{genre.name}</option>
+                        )
+                    })
+                }
+            </select>
+
+            <p>Sort Name</p>
+            <input type="radio" name="name" id="NameAsc" value="NameAsc" onChange={handleChange} checked={selectedOption.NameAsc}/>
+            <label htmlFor="">Ascending</label><br/>
+            <input type="radio" name="name" id="NameDesc" value="NameDesc" onChange={handleChange} checked={selectedOption.NameDesc}/>
+            <label htmlFor="">Descending</label><br/>
+            <p>Sort Rating</p>
+            <input type="radio" name="rating" id="RatingAsc" value="RatingAsc" onChange={handleChange} checked={selectedOption.RatingAsc}/>
+            <label htmlFor="">Ascending</label><br/>
+            <input type="radio" name="rating" id="RatingDesc" value="RatingDesc" onChange={handleChange} checked={selectedOption.RatingDesc}/>
+            <label htmlFor="">Descending</label><br/>
+
+            <button onClick={handleClean}>Clean</button>
         </form>
     </div>
   )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { getVideogames, getVideogamesByName } from "../../redux/actions";
+import { getGenres, getVideogames, getVideogamesByName } from "../../redux/actions";
 import { CardsContainer } from "../../components/CardsContainer/CardsContainer";
 import { NavBar } from "../../components/NavBar/NavBar";
 
@@ -25,6 +25,7 @@ export const Home = () => {
 
     useEffect(() => {
       dispatch(getVideogames());
+      dispatch(getGenres());
     }, []);
     
   return (

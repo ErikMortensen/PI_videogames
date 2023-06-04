@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS } from "./actions-types";
+import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS, FILTER_BY_GENRE } from "./actions-types";
 
 export const getVideogames = () => {
     return async function (dispatch) {
@@ -60,6 +60,17 @@ export const sortAsc = (property) => {
         }
 
         dispatch({ type: SORT_ARRAY_ASC, payload: sorted });
+    };
+};
+
+export const filterByGenre = (genre) => {
+    return async function (dispatch, getState) {
+        const state = getState();
+        const filtered = genre === 'all'
+            ? state.gamesCopy
+            : state.gamesCopy.filter(game => game.genres.includes(genre));
+
+        dispatch({ type: FILTER_BY_GENRE, payload: filtered });
     };
 };
 
