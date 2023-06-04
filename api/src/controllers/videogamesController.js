@@ -62,7 +62,6 @@ const cleanData = (data, source = 'api') => {
 
 
 const getVideogames = async () => {
-    // let videogamesApi = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)).data.results;
     let videogamesApi = [];
 
     for (let i = 1; i < 5; i++) {
@@ -129,16 +128,11 @@ const getVideogamesByName = async (name) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
 
-        // Si `nameA` coincide exactamente con `name`, colocamos `a` antes que `b`
         if (nameA.includes(name)) {
             return -1;
-        }
-        // Si `nameB` coincide exactamente con `name`, colocamos `b` antes que `a`
-        else if (nameB.includes(name)) {
+        } else if (nameB.includes(name)) {
             return 1;
-        }
-        // En cualquier otro caso, mantenemos el orden original
-        else {
+        } else {
             return 0;
         }
     });

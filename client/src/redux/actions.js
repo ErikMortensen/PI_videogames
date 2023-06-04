@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS, FILTER_BY_GENRE_AND_ORIGIN } from "./actions-types";
+import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, CLEAN_FILTERS, FILTER } from "./actions-types";
 
 export const getVideogames = () => {
     return async function (dispatch) {
@@ -25,45 +25,43 @@ export const getGenres = () => {
     };
 };
 
-export const sortAsc = (property) => {
-    return async function (dispatch, getState) {
-        const state = getState();
-        let sorted = [];
+const sortByProperty = (properties, data) => {
+    let sorted = data;
+    const { NameAsc, NameDesc, RatingAsc, RatingDesc } = properties;
 
-        if (property === 'NameAsc') {
-            sorted = [...state.games].sort((a, b) => {
-                if (a.name < b.name) {
-                    return -1; // a debe ser ordenado antes que b
-                } else if (a.name > b.name) {
-                    return 1; // a debe ser ordenado después que b
-                } else {
-                    return 0; // a y b son iguales en términos de ordenación
-                }
-            });
-        }
-        if (property === 'NameDesc') {
-            sorted = [...state.games].sort((a, b) => {
-                if (b.name < a.name) {
-                    return -1; // a debe ser ordenado antes que b
-                } else if (b.name > a.name) {
-                    return 1; // a debe ser ordenado después que b
-                } else {
-                    return 0; // a y b son iguales en términos de ordenación
-                }
-            });
-        }
-        if (property === 'RatingAsc') {
-            sorted = [...state.games].sort((a, b) => a.rating - b.rating);
-        }
-        if (property === 'RatingDesc') {
-            sorted = [...state.games].sort((a, b) => b.rating - a.rating);
-        }
+    if (NameAsc === 'NameAsc') {
+        sorted = [...sorted].sort((a, b) => {
+            if (a.name < b.name) {
+                return -1; // a debe ser ordenado antes que b
+            } else if (a.name > b.name) {
+                return 1; // a debe ser ordenado después que b
+            } else {
+                return 0; // a y b son iguales en términos de ordenación
+            }
+        });
+    }
+    if (NameDesc === 'NameDesc') {
+        sorted = [...sorted].sort((a, b) => {
+            if (b.name < a.name) {
+                return -1; // a debe ser ordenado antes que b
+            } else if (b.name > a.name) {
+                return 1; // a debe ser ordenado después que b
+            } else {
+                return 0; // a y b son iguales en términos de ordenación
+            }
+        });
+    }
+    if (RatingAsc === 'RatingAsc') {
+        sorted = [...sorted].sort((a, b) => a.rating - b.rating);
+    }
+    if (RatingDesc === 'RatingDesc') {
+        sorted = [...sorted].sort((a, b) => b.rating - a.rating);
+    }
 
-        dispatch({ type: SORT_ARRAY_ASC, payload: sorted });
-    };
-};
+    return sorted;
+}
 
-export const filterByGenreAndOrigin = (genre, origin) => {
+export const filters = (genre, origin, properties) => {
     return async function (dispatch, getState) {
         const state = getState();
         let filtered = genre === 'all'
@@ -76,8 +74,11 @@ export const filterByGenreAndOrigin = (genre, origin) => {
                 : filtered.filter(game => !isNaN(game.id));
         }
 
-        dispatch({ type: FILTER_BY_GENRE_AND_ORIGIN, payload: filtered });
+        filtered = sortByProperty(properties, filtered);
+
+        dispatch({ type: FILTER, payload: filtered });
     };
+
 };
 
 export const cleanFilters = () => {

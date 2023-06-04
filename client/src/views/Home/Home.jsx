@@ -5,6 +5,7 @@ import { getGenres, getVideogames, getVideogamesByName } from "../../redux/actio
 import { CardsContainer } from "../../components/CardsContainer/CardsContainer";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { FilterBar } from "../../components/FilterBar/FilterBar";
+import { Wrapper } from "../../components/Wrapper/Wrapper";
 
 export const Home = () => {
     const dispatch = useDispatch();
@@ -13,15 +14,36 @@ export const Home = () => {
 
     const [filtered, setFiltered] = useState(allGames);
     const [searchString, setSearchString] = useState('');
+
+    const ITEMS_PER_PAGE = 15;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const lastIndex = currentPage * ITEMS_PER_PAGE;
+    // const totalElements = filtered.length;
+    const firstIndex = lastIndex - ITEMS_PER_PAGE;
+
+    const items = allGames.slice(firstIndex,lastIndex);
+
+
+
     const handleChange = (e) => {
       setSearchString(e.target.value);
-
-      dispatch(getVideogamesByName(e.target.value));
-
       setFiltered(gamesByName);
     };
 
+    const handlerNext = (e) => {
+      e.preventDefault();
+      (currentPage < items.length) && setCurrentPage(currentPage+1);
+    };
+    
+    const handlerPrev = (e) => {
+      e.preventDefault();
+    };
 
+    useEffect(() => {
+      dispatch(getVideogamesByName(searchString));
+    }, [searchString]);
+    
     useEffect(() => {
       dispatch(getVideogames());
       dispatch(getGenres());
@@ -31,7 +53,9 @@ export const Home = () => {
     <div>
       <NavBar handleChange={handleChange} searchBar={true}/>
       <FilterBar/>
-      <CardsContainer games={(!searchString) ? allGames : filtered}/>
+      {/* <CardsContainer games={(!searchString) ? allGames : filtered}/> */}
+      <CardsContainer games={(!searchString) ? items : filtered}/>
+      <Wrapper currentPage={currentPage} handlerNext={handlerNext} handlerPrev={handlerPrev}/>
     </div>
   )
 }

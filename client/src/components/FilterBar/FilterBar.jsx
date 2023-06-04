@@ -1,6 +1,6 @@
 import { useDispatch, useSelector} from "react-redux";
-import { cleanFilters, filterByGenreAndOrigin, sortAsc } from "../../redux/actions";
-import { useState } from "react";
+import { cleanFilters, filters } from "../../redux/actions";
+import { useEffect, useState } from "react";
 
 export const FilterBar = () => {
     const dispatch = useDispatch();
@@ -21,9 +21,7 @@ export const FilterBar = () => {
     const [selectGenreValue, setSelectGenreValue] = useState('all');
     const [selectOriginValue, setSelectOriginValue] = useState('all');
     
-    const handleChange = (e) => {
-        dispatch(sortAsc(e.target.value));
-
+    const handlerChange = (e) => {
         let otherRadioButton;
 
         if(e.target.id === 'NameAsc') otherRadioButton = 'NameDesc';
@@ -31,24 +29,27 @@ export const FilterBar = () => {
         if(e.target.id === 'RatingAsc') otherRadioButton = 'RatingDesc';
         if(e.target.id === 'RatingDesc') otherRadioButton = 'RatingAsc';
 
-        setSelectedOption({
-            ...selectedOption,
+        setSelectedOption(prevState => ({
+            ...prevState,
             [e.target.id]: e.target.value,
             [otherRadioButton]: null
-        });
+        }));
     };
 
-    const handleSelectGenreChange = (e) =>{
+    useEffect(() => {
+        dispatch(filters(selectGenreValue, selectOriginValue, selectedOption));
+    }, [selectGenreValue,selectOriginValue,selectedOption])
+    
+
+    const handlerSelectGenreChange = (e) =>{
         setSelectGenreValue(e.target.value);
-        dispatch(filterByGenreAndOrigin(e.target.value,selectOriginValue));
     };
 
-    const handleSelectOrigenChange = (e) => {
+    const handlerSelectOrigenChange = (e) => {
         setSelectOriginValue(e.target.value);
-        dispatch(filterByGenreAndOrigin(selectGenreValue,e.target.value));
     };
 
-    const handleClean = (e) => {
+    const handlerClean = (e) => {
         e.preventDefault();
         dispatch(cleanFilters());
         setSelectedOption(initialState);
@@ -60,7 +61,7 @@ export const FilterBar = () => {
         <div>
         <form action="">
             <label htmlFor="">Genre</label>
-            <select name="genres" id="" onChange={handleSelectGenreChange} value={selectGenreValue}>
+            <select name="genres" id="" onChange={handlerSelectGenreChange} value={selectGenreValue}>
                 <option value='all'>All</option>
 
                 {
@@ -73,24 +74,24 @@ export const FilterBar = () => {
             </select>
 
             <label htmlFor="">Origen</label>
-            <select name="origen" id="" onChange={handleSelectOrigenChange} value={selectOriginValue}>
+            <select name="origen" id="" onChange={handlerSelectOrigenChange} value={selectOriginValue}>
                 <option value="all">All</option>
                 <option value="api">API</option>
                 <option value="database">Database</option>
             </select>
 
             <p>Sort Name</p>
-            <input type="radio" name="name" id="NameAsc" value="NameAsc" onChange={handleChange} checked={selectedOption.NameAsc}/>
+            <input type="radio" name="name" id="NameAsc" value="NameAsc" onChange={handlerChange} checked={selectedOption.NameAsc}/>
             <label htmlFor="">Ascending</label><br/>
-            <input type="radio" name="name" id="NameDesc" value="NameDesc" onChange={handleChange} checked={selectedOption.NameDesc}/>
+            <input type="radio" name="name" id="NameDesc" value="NameDesc" onChange={handlerChange} checked={selectedOption.NameDesc}/>
             <label htmlFor="">Descending</label><br/>
             <p>Sort Rating</p>
-            <input type="radio" name="rating" id="RatingAsc" value="RatingAsc" onChange={handleChange} checked={selectedOption.RatingAsc}/>
+            <input type="radio" name="rating" id="RatingAsc" value="RatingAsc" onChange={handlerChange} checked={selectedOption.RatingAsc}/>
             <label htmlFor="">Ascending</label><br/>
-            <input type="radio" name="rating" id="RatingDesc" value="RatingDesc" onChange={handleChange} checked={selectedOption.RatingDesc}/>
+            <input type="radio" name="rating" id="RatingDesc" value="RatingDesc" onChange={handlerChange} checked={selectedOption.RatingDesc}/>
             <label htmlFor="">Descending</label><br/>
 
-            <button onClick={handleClean}>Clean</button>
+            <button onClick={handlerClean}>Clean</button>
         </form>
     </div>
   )
