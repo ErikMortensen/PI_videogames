@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { getGenres, getVideogames, getVideogamesByName } from "../../redux/actions";
 import { CardsContainer } from "../../components/CardsContainer/CardsContainer";
 import { NavBar } from "../../components/NavBar/NavBar";
+import { FilterBar } from "../../components/FilterBar/FilterBar";
 
 export const Home = () => {
     const dispatch = useDispatch();
@@ -14,7 +15,6 @@ export const Home = () => {
     const [searchString, setSearchString] = useState('');
 
     const handleChange = (e) => {
-      // console.log(e.target.value);
       setSearchString(e.target.value);
 
       dispatch(getVideogamesByName(e.target.value));
@@ -31,7 +31,7 @@ export const Home = () => {
   return (
     <div>
       <NavBar handleChange={handleChange} searchBar={true}/>
-      <h1>Home</h1>
+      <FilterBar/>
       <CardsContainer games={(!searchString) ? allGames : filtered}/>
     </div>
   )
