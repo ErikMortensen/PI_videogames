@@ -17,6 +17,8 @@ export const FilterBar = () => {
     const [selectedOption, setSelectedOption] = useState({
         initialState
     });
+
+    const [selectGenreValue, setSelectGenreValue] = useState('');
     
     const handleChange = (e) => {
         dispatch(sortAsc(e.target.value));
@@ -35,8 +37,9 @@ export const FilterBar = () => {
         });
     };
 
-    const handleSelectChange = (e) =>{
-        console.log(e.target.value);
+    const handleSelectGenreChange = (e) =>{
+        console.log(e.target);
+        setSelectGenreValue(e.target.value);
         dispatch(filterByGenre(e.target.value));
     };
 
@@ -44,13 +47,14 @@ export const FilterBar = () => {
         e.preventDefault();
         dispatch(cleanFilters());
         setSelectedOption(initialState);
+        setSelectGenreValue('all');
     };
 
     return (
         <div>
         <form action="">
             <label htmlFor="">Genre</label>
-            <select name="genres" id="" onChange={handleSelectChange}>
+            <select name="genres" id="" onChange={handleSelectGenreChange} value={selectGenreValue}>
                 <option value='all'>All</option>
 
                 {
@@ -61,6 +65,13 @@ export const FilterBar = () => {
                     })
                 }
             </select>
+
+            {/* <label htmlFor="">Origen</label>
+            <select name="origen" id="" onChange={handleSelectOrigenChange}>
+                <option value="all">All</option>
+                <option value="api">API</option>
+                <option value="database">Database</option>
+            </select> */}
 
             <p>Sort Name</p>
             <input type="radio" name="name" id="NameAsc" value="NameAsc" onChange={handleChange} checked={selectedOption.NameAsc}/>
