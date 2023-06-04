@@ -1,5 +1,5 @@
 import { useDispatch, useSelector} from "react-redux";
-import { cleanFilters, filterByGenre, filterByOrigen, sortAsc } from "../../redux/actions";
+import { cleanFilters, filterByGenreAndOrigin, sortAsc } from "../../redux/actions";
 import { useState } from "react";
 
 export const FilterBar = () => {
@@ -18,8 +18,8 @@ export const FilterBar = () => {
         initialState
     });
 
-    const [selectGenreValue, setSelectGenreValue] = useState('');
-    const [selectOriginValue, setSelectOriginValue] = useState('');
+    const [selectGenreValue, setSelectGenreValue] = useState('all');
+    const [selectOriginValue, setSelectOriginValue] = useState('all');
     
     const handleChange = (e) => {
         dispatch(sortAsc(e.target.value));
@@ -40,12 +40,12 @@ export const FilterBar = () => {
 
     const handleSelectGenreChange = (e) =>{
         setSelectGenreValue(e.target.value);
-        dispatch(filterByGenre(e.target.value));
+        dispatch(filterByGenreAndOrigin(e.target.value,selectOriginValue));
     };
 
     const handleSelectOrigenChange = (e) => {
         setSelectOriginValue(e.target.value);
-        dispatch(filterByOrigen(e.target.value));
+        dispatch(filterByGenreAndOrigin(selectGenreValue,e.target.value));
     };
 
     const handleClean = (e) => {

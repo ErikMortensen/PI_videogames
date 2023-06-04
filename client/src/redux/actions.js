@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS, FILTER_BY_GENRE, FILTER_BY_ORIGEN } from "./actions-types";
+import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS, FILTER_BY_GENRE_AND_ORIGIN } from "./actions-types";
 
 export const getVideogames = () => {
     return async function (dispatch) {
@@ -63,32 +63,20 @@ export const sortAsc = (property) => {
     };
 };
 
-export const filterByGenre = (genre) => {
+export const filterByGenreAndOrigin = (genre, origin) => {
     return async function (dispatch, getState) {
         const state = getState();
-        const filtered = genre === 'all'
+        let filtered = genre === 'all'
             ? state.gamesCopy
             : state.gamesCopy.filter(game => game.genres.includes(genre));
 
-        dispatch({ type: FILTER_BY_GENRE, payload: filtered });
-    };
-};
-
-export const filterByOrigen = (origen) => {
-    return async function (dispatch, getState) {
-        const state = getState();
-        let filtered = [];
-
-        if (origen === 'all') {
-            filtered = state.gamesCopy;
-        } else {
-            filtered = origen === 'database'
-                ? state.gamesCopy.filter(game => isNaN(game.id))
-                : state.gamesCopy.filter(game => !isNaN(game.id));
+        if (origin !== 'all') {
+            filtered = origin === 'database'
+                ? filtered.filter(game => isNaN(game.id))
+                : filtered.filter(game => !isNaN(game.id));
         }
 
-
-        dispatch({ type: FILTER_BY_ORIGEN, payload: filtered });
+        dispatch({ type: FILTER_BY_GENRE_AND_ORIGIN, payload: filtered });
     };
 };
 

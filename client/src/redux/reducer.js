@@ -1,4 +1,4 @@
-const { GET_GAMES, GET_GENRES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS, FILTER_BY_GENRE, FILTER_BY_ORIGEN } = require("./actions-types");
+const { GET_GAMES, GET_GENRES, GET_GAMES_BY_NAME, SORT_ARRAY_ASC, CLEAN_FILTERS, FILTER_BY_GENRE_AND_ORIGIN } = require("./actions-types");
 
 const initialState = {
     games: [],
@@ -32,13 +32,7 @@ const rootReducer = (state = initialState, action) => {
                 games: action.payload
             };
 
-        case FILTER_BY_GENRE:
-            return {
-                ...state,
-                games: action.payload
-            };
-
-        case FILTER_BY_ORIGEN:
+        case FILTER_BY_GENRE_AND_ORIGIN:
             return {
                 ...state,
                 games: action.payload
