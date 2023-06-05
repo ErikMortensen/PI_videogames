@@ -19,29 +19,28 @@ export const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const lastIndex = currentPage * ITEMS_PER_PAGE;
-    // const totalElements = filtered.length;
     const firstIndex = lastIndex - ITEMS_PER_PAGE;
 
     const items = allGames.slice(firstIndex,lastIndex);
 
-
-
     const handleChange = (e) => {
       setSearchString(e.target.value);
       setFiltered(gamesByName);
+      setCurrentPage(currentPage=1); // ver si tbn hay q ponerlo en el useEfect
     };
 
     const handlerNext = (e) => {
       e.preventDefault();
-      (currentPage < items.length) && setCurrentPage(currentPage+1);
+      (currentPage < allGames.length/ITEMS_PER_PAGE) && setCurrentPage(currentPage+1);
     };
     
     const handlerPrev = (e) => {
       e.preventDefault();
+      (currentPage > 1) && setCurrentPage(currentPage-1);
     };
 
     useEffect(() => {
-      dispatch(getVideogamesByName(searchString));
+      dispatch(getVideogamesByName(searchString)); // ver si modifica el volverlo al handlerChange
     }, [searchString]);
     
     useEffect(() => {
@@ -52,8 +51,7 @@ export const Home = () => {
   return (
     <div>
       <NavBar handleChange={handleChange} searchBar={true}/>
-      <FilterBar/>
-      {/* <CardsContainer games={(!searchString) ? allGames : filtered}/> */}
+      <FilterBar currentPage={currentPage} setCurrentPage={setCurrentPage}/>
       <CardsContainer games={(!searchString) ? items : filtered}/>
       <Wrapper currentPage={currentPage} handlerNext={handlerNext} handlerPrev={handlerPrev}/>
     </div>

@@ -2,7 +2,7 @@ import { useDispatch, useSelector} from "react-redux";
 import { cleanFilters, filters } from "../../redux/actions";
 import { useEffect, useState } from "react";
 
-export const FilterBar = () => {
+export const FilterBar = ({currentPage,setCurrentPage}) => {
     const dispatch = useDispatch();
 
     const genres = useSelector(state=>state.genres);
@@ -38,7 +38,8 @@ export const FilterBar = () => {
 
     useEffect(() => {
         dispatch(filters(selectGenreValue, selectOriginValue, selectedOption));
-    }, [selectGenreValue,selectOriginValue,selectedOption])
+        setCurrentPage(currentPage=1);
+    }, [selectGenreValue,selectOriginValue,selectedOption]);
     
 
     const handlerSelectGenreChange = (e) =>{
@@ -55,6 +56,7 @@ export const FilterBar = () => {
         setSelectedOption(initialState);
         setSelectGenreValue('all');
         setSelectOriginValue('all');
+        setCurrentPage(currentPage=1);
     };
 
     return (

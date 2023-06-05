@@ -3,8 +3,8 @@ import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, CLEAN_FILTERS, FILTER } from 
 
 export const getVideogames = () => {
     return async function (dispatch) {
-        const games = (await axios.get('http://localhost:3001/videogames')).data;
-
+        let games = (await axios.get('http://localhost:3001/videogames')).data;
+        games = games.slice(0, 100);
         dispatch({ type: GET_GAMES, payload: games });
     };
 };
