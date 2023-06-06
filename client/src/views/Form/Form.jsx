@@ -3,9 +3,23 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from 'axios';
 import { getGenres } from "../../redux/actions";
 import { NavBar } from "../../components/NavBar/NavBar";
+import {validateInput, validateForm} from "./validate";
+import styles from "./Form.module.css";
+
+
 
 
 export const Form = () => {
+  const initialErrors = {
+      name: '',
+      image: '',
+      description: '',
+      platforms: '',
+      released: '',
+      rating: '',
+      genres: '',
+  };
+
   const [form, setForm] = useState({
     name: '',
     image: '',
@@ -15,6 +29,8 @@ export const Form = () => {
     rating: '',
     genres: [],
   });
+
+  const [errors, setErrors] = useState(initialErrors);
 
   const [checkboxesPlatforms, setCheckboxesPlatforms] = useState({
       PlayStation: false,
@@ -27,10 +43,10 @@ export const Form = () => {
       SEGA: false,
   });
 
-  const [checkboxesGenres, setCheckboxesGenres] = useState({
-  });  
+  const [checkboxesGenres, setCheckboxesGenres] = useState({});  
 
   const dispatch = useDispatch();
+  const validatedForm = validateForm(form, errors);
   
   useEffect(() => {
     dispatch(getGenres());
@@ -40,7 +56,12 @@ export const Form = () => {
   
   const genres = useSelector(state=>state.genres);
 
-  const handleChange = (e) => {
+  const handlerChange = (e) => {
+    const validated = validateInput({
+      ...form,
+      [e.target.name]: e.target.value
+    },setErrors,errors);
+
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -66,6 +87,11 @@ export const Form = () => {
       ...checkboxesGenres,
       [name]: checked
     });
+
+    validateInput({
+      ...form,
+      genres: updatedGenres
+    },setErrors,errors);
   };
 
   const handleCheckboxPlatformsChange = (e) => {
@@ -89,16 +115,21 @@ export const Form = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handlerSubmit = (e) => {
     e.preventDefault();
-
-    try {      
-      axios.post('http://localhost:3001/videogames', form)
-        .then(res => alert(`The game has been created successfully!`));
+    
+    try { 
+      if(validatedForm){
+        axios.post('http://localhost:3001/videogames', form)
+          .then(res => alert(`The game has been created successfully!`));
+          setErrors(initialErrors);
+          cleanForm();
+      } else {
+        alert('Campos del formulario con errores!');
+      }
     } catch ({message}) {
       alert(message);
     }
-    cleanForm();
   };
 
   const cleanForm = () => {
@@ -111,7 +142,7 @@ export const Form = () => {
       released: '',
       rating: '',
       genres: [],
-    })
+    });
 
     setCheckboxesPlatforms({
       PlayStation: false,
@@ -137,19 +168,23 @@ export const Form = () => {
     <div>
 
     <NavBar searchBar={false}/>
-    <form onSubmit={handleSubmit}>
+    <form  className={styles.form} onSubmit={handlerSubmit}>
       <h2>Formulario de creación</h2>
       <label htmlFor="">Name: </label>
-      <input type="text" name="name" id="" value={form.name} onChange={handleChange}/>
+      <input type="text" name="name" id="" value={form.name} onChange={handlerChange}/>
+      <span>{errors.name}</span>
 
       <label htmlFor="">Image: </label>
-      <input type="text" name="image" id="" value={form.image} onChange={handleChange}/>
+      <input type="text" name="image" id="" value={form.image} onChange={handlerChange}/>
+      <span>{errors.image}</span>
 
       <label htmlFor="">Description: </label>
-      <textarea name="description" id="" cols="30" rows="10" value={form.description} onChange={handleChange}>
+      <textarea name="description" id="" cols="30" rows="10" value={form.description} onChange={handlerChange}>
       </textarea>
+      <span>{errors.description}</span>
 
-      <label htmlFor="">Platforms: </label>
+
+      <label className={styles.checkboxColumn} htmlFor="">Platforms: </label>
         <label htmlFor="">
           <input type="checkbox" name="PlayStation" id="" value="PlayStation" checked={checkboxesPlatforms.PlayStation} onChange={handleCheckboxPlatformsChange}/>
           PlayStation
@@ -199,10 +234,14 @@ export const Form = () => {
         <br />
 
       <label htmlFor="">Released: </label>
-      <input type="date" name="released" id="" value={form.released} onChange={handleChange}/>
+      <input type="date" name="released" id="" value={form.released} onChange={handlerChange}/>
+      <span>{errors.released}</span>
+
 
       <label htmlFor="">Rating: </label>
-      <input type="text" name="rating" id="" value={form.rating} onChange={handleChange}/>
+      <input type="number" name="rating" id="" value={form.rating} onChange={handlerChange}/>
+      <span>{errors.rating}</span>
+
 
       <label htmlFor="">Genres: </label>
       {
@@ -217,7 +256,9 @@ export const Form = () => {
             </div>
           )
       })}
-      <button type="submit">Create</button>
+      <span>{errors.genres}</span>
+
+      <button type="submit" disabled={!validatedForm}>Create</button>
     </form>
     </div>
   )

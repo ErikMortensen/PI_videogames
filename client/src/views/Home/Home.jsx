@@ -26,7 +26,8 @@ export const Home = () => {
     const handleChange = (e) => {
       setSearchString(e.target.value);
       setFiltered(gamesByName);
-      setCurrentPage(currentPage=1); // ver si tbn hay q ponerlo en el useEfect
+      // setCurrentPage(currentPage=1);
+      setCurrentPage(1); // ver si tbn hay q ponerlo en el useEfect
     };
 
     const handlerNext = (e) => {
