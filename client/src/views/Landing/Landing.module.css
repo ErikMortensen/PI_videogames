@@ -16,35 +16,31 @@ body, html {
 }
 
 .landingButton {
-    position: absolute; /* Posición absoluta para el botón */
-    top: 50%; /* Desplazar el botón al 50% de la altura del body */
-    left: 50%; /* Desplazar el botón al 50% del ancho del body */
+    position: absolute;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    border: 1px solid #ffffff; /* Bordes */
-    color: #ffffff; /* Color del texto */
-    background-color: transparent; /* Fondo transparente */
-    padding: 10px 20px; /* Espaciado interno */
-    font-size: 24px; /* Tamaño de fuente */
-    text-decoration: none; /* Sin subrayado */
-    cursor: pointer; /* Cambiar el cursor al pasar por encima */
-    animation: blink 1.8s infinite; /* Animación de destello */
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    background-color: transparent;
+    padding: 10px 20px;
+    font-size: 24px;
+    text-decoration: none;
+    cursor: pointer; 
+    animation: blink 1.8s infinite; 
     letter-spacing: 4px;
     border-radius: 15px;
   }
   
   .landingButton:hover {
-    /* animation: none;  */
     background-color: #a945c7;
     box-shadow: 0 0 10px #a945c7, 0 0 40px #a945c7, 0 0 90px #a945c7;
     color: #fff;
     font-weight: 900;
     border: none;
     transition-delay: 0.2s;
-    /* transition: 1s; */
     transition: background-color 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
-    animation: blinkHover 1.8s infinite; /* Animación de destello */
-
-    /* transform: scale(1.05); */
+    animation: blinkHover 1.8s infinite;
   }
 
   .landingButton:active{
