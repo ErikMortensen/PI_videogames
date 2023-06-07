@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import {useParams, Link} from "react-router-dom";
 import axios from "axios";
 import { NavBar } from "../../components/NavBar/NavBar";
+import styles from "./Detail.module.css";
+
 
 export const Detail = () => {
   const {id} = useParams();
@@ -28,8 +30,12 @@ export const Detail = () => {
 }, [id]);
 
   return (
-    <div>
+    <div className={styles.detail}>
       <NavBar searchBar={false}/>
+      <div className={styles.background} style={{
+      // backgroundImage: `url(${image})`,
+      // backgroundImage: `radial-gradient(circle, rgba(17,17,17,0.8) 0%, rgba(17,17,17,0.85) 50%,rgba(17,17,17,0.9) 100%), url(${image})`,
+    }}></div>
 
       <Link to='/home'>Volver</Link>
       <h3>ID: {id}</h3>

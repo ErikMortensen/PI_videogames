@@ -14,7 +14,7 @@ export const validateInput = (form, setErrors, errors) => {
 
     // valido el released, la fecha no puede ser mayor que la actual
     if (!compareDates(form.released) && form.released.length !== 0) {
-        errors = { ...errors, released: 'The selected date cannot be later than the current date.' };
+        errors = { ...errors, released: 'Cannot be later than the current date.' };
         setErrors(errors);
         validated = false;
     } else {
@@ -24,7 +24,7 @@ export const validateInput = (form, setErrors, errors) => {
 
     // valido el rating, deben ser números del 1 al 10, no pueden tener más de 2 decimales
     if (!(/^(?:10|[1-9](?:\.\d{1,2})?)$/.test(form.rating)) && form.rating.length !== 0) {
-        errors = { ...errors, rating: 'The grade must be a number between 0 and 10, with a maximum of 2 decimal places.' };
+        errors = { ...errors, rating: 'Number between 0 and 10, with a maximum of 2 decimal places.' };
         setErrors(errors);
         validated = false;
     } else {

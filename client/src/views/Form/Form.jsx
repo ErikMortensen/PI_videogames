@@ -165,97 +165,105 @@ export const Form = () => {
   };
 
   return (
-    <div>
+    <div className="styles.createComponent">
 
     <NavBar searchBar={false}/>
     <form  className={styles.form} onSubmit={handlerSubmit}>
-      <h2>Formulario de creación</h2>
-      <label htmlFor="">Name: </label>
-      <input type="text" name="name" id="" value={form.name} onChange={handlerChange}/>
+      <h2>Creation Form</h2>
+      <label className={styles.descriptions} htmlFor="name">Name: </label>
+      <input type="text" name="name" id="name" value={form.name} onChange={handlerChange}/>
       <span>{errors.name}</span>
 
-      <label htmlFor="">Image: </label>
-      <input type="text" name="image" id="" value={form.image} onChange={handlerChange}/>
+      <label className={styles.descriptions} htmlFor="image">Image: </label>
+      <input type="text" name="image" id="image" value={form.image} onChange={handlerChange}/>
       <span>{errors.image}</span>
 
-      <label htmlFor="">Description: </label>
-      <textarea name="description" id="" cols="30" rows="10" value={form.description} onChange={handlerChange}>
+      <label className={styles.descriptions} htmlFor="description">Description: </label>
+      <textarea name="description" id="description" cols="30" rows="10" value={form.description} onChange={handlerChange}>
       </textarea>
       <span>{errors.description}</span>
 
 
-      <label className={styles.checkboxColumn} htmlFor="">Platforms: </label>
-        <label htmlFor="">
-          <input type="checkbox" name="PlayStation" id="" value="PlayStation" checked={checkboxesPlatforms.PlayStation} onChange={handleCheckboxPlatformsChange}/>
+      <label className={styles.descriptions} htmlFor="">Platforms: </label>
+        <div className={styles.containerPlatform}>
+
+        <label htmlFor="PlayStation">
+          <input type="checkbox" name="PlayStation" id="PlayStation" value="PlayStation" checked={checkboxesPlatforms.PlayStation} onChange={handleCheckboxPlatformsChange}/>
           PlayStation
         </label>
         <br />
 
-        <label htmlFor="">
-          <input type="checkbox" name="Xbox" id="" value="Xbox" checked={checkboxesPlatforms.Xbox} onChange={handleCheckboxPlatformsChange}/>
+        <label htmlFor="Xbox">
+          <input type="checkbox" name="Xbox" id="Xbox" value="Xbox" checked={checkboxesPlatforms.Xbox} onChange={handleCheckboxPlatformsChange}/>
           Xbox
         </label>
         <br />
 
-        <label htmlFor="">
-          <input type="checkbox" name="Nintendo" id="" value="Nintendo" checked={checkboxesPlatforms.Nintendo} onChange={handleCheckboxPlatformsChange}/>
+        <label htmlFor="Nintendo">
+          <input type="checkbox" name="Nintendo" id="Nintendo" value="Nintendo" checked={checkboxesPlatforms.Nintendo} onChange={handleCheckboxPlatformsChange}/>
           Nintendo
         </label>
         <br />
 
-        <label htmlFor="">
-          <input type="checkbox" name="iOS" id="" value="iOS" checked={checkboxesPlatforms.iOS} onChange={handleCheckboxPlatformsChange}/>
+        <label htmlFor="iOS">
+          <input type="checkbox" name="iOS" id="iOS" value="iOS" checked={checkboxesPlatforms.iOS} onChange={handleCheckboxPlatformsChange}/>
           iOS
         </label>
         <br />
 
-        <label htmlFor="">
-          <input type="checkbox" name="Android" id="" value="Android" checked={checkboxesPlatforms.Android} onChange={handleCheckboxPlatformsChange}/>
+        <label htmlFor="Android">
+          <input type="checkbox" name="Android" id="Android" value="Android" checked={checkboxesPlatforms.Android} onChange={handleCheckboxPlatformsChange}/>
           Android
         </label>
         <br />
 
-        <label htmlFor="">
-          <input type="checkbox" name="Wii" id="" value="Wii" checked={checkboxesPlatforms.Wii} onChange={handleCheckboxPlatformsChange}/>
+        <label htmlFor="Wii">
+          <input type="checkbox" name="Wii" id="Wii" value="Wii" checked={checkboxesPlatforms.Wii} onChange={handleCheckboxPlatformsChange}/>
           Wii
         </label>
         <br />
 
-        <label htmlFor="">
-          <input type="checkbox" name="Game_Boy" id="" value="Game Boy" checked={checkboxesPlatforms.Game_Boy} onChange={handleCheckboxPlatformsChange}/>
+        <label htmlFor="Game_Boy">
+          <input type="checkbox" name="Game_Boy" id="Game_Boy" value="Game Boy" checked={checkboxesPlatforms.Game_Boy} onChange={handleCheckboxPlatformsChange}/>
           Game Boy
         </label>
         <br />
 
-        <label htmlFor="">
-          <input type="checkbox" name="SEGA" id="" value="SEGA" checked={checkboxesPlatforms.SEGA} onChange={handleCheckboxPlatformsChange}/>
+        <label htmlFor="SEGA">
+          <input type="checkbox" name="SEGA" id="SEGA" value="SEGA" checked={checkboxesPlatforms.SEGA} onChange={handleCheckboxPlatformsChange}/>
           SEGA
         </label>
         <br />
+      </div>
 
-      <label htmlFor="">Released: </label>
-      <input type="date" name="released" id="" value={form.released} onChange={handlerChange}/>
-      <span>{errors.released}</span>
-
-
-      <label htmlFor="">Rating: </label>
-      <input type="number" name="rating" id="" value={form.rating} onChange={handlerChange}/>
-      <span>{errors.rating}</span>
+      <div className={styles.childContainer}>
+        <label className={styles.descriptions} htmlFor="released">Released: </label>
+        <input type="date" name="released" id="released" value={form.released} onChange={handlerChange}/>
 
 
-      <label htmlFor="">Genres: </label>
-      {
-        genres?.map(genre => {
-          return(
-            <div>
-              <label htmlFor="">
-                <input type="checkbox" name={genre.name} id="" value={genre.name} checked={checkboxesGenres[genre.name]} onChange={handleCheckboxGenresChange}/>
-                {genre.name}
-              </label>
-              <br />
-            </div>
-          )
-      })}
+        <label className={styles.descriptions} htmlFor="rating">Rating: </label>
+        <input type="number" name="rating" id="rating" value={form.rating} onChange={handlerChange}/>
+      </div>
+      <div className={styles.childSpans}>
+        <span>{errors.released}</span>
+        <span>{errors.rating}</span>
+      </div>
+
+
+      <label className={styles.descriptions} htmlFor="">Genres: </label>
+      <div className={styles.containerGenres}>
+        {
+          genres?.map(genre => {
+            return(
+              <>
+                <label htmlFor={genre.name}>
+                  <input type="checkbox" name={genre.name} id={genre.name} value={genre.name} checked={checkboxesGenres[genre.name]} onChange={handleCheckboxGenresChange}/>
+                  {genre.name}
+                </label>
+              </>
+            )
+        })}
+      </div>
       <span>{errors.genres}</span>
 
       <button type="submit" disabled={!validatedForm}>Create</button>
