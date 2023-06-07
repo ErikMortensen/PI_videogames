@@ -92,6 +92,9 @@ const compareDates = (date) => {
  */
 function hasEmptyProperty(obj) {
     for (let key in obj) {
+        if (Array.isArray(obj[key]) && obj[key].length === 0) {
+            return true;
+        }
         if (obj[key] === "") {
             return true;
         }
