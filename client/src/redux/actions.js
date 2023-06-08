@@ -14,8 +14,8 @@ export const getVideogamesByName = (name) => {
         const games = (await axios.get(`http://localhost:3001/videogames?name=${name}`)).data;
 
         dispatch({ type: GET_GAMES_BY_NAME, payload: games });
-    }
-}
+    };
+};
 
 export const getGenres = () => {
     return async function (dispatch) {
