@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getVideogamesHandler, createVideogamehandler, getVideogamesByNameHandler, getVideogamesByIdHandler } = require('../handlers/videogamesHandler');
+const { getVideogamesHandler, createVideogamehandler, getVideogamesByIdHandler } = require('../handlers/videogamesHandler');
 
 const videogamesRouter = Router();
 

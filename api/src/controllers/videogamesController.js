@@ -64,7 +64,7 @@ const cleanData = (data, source = 'api') => {
 const getVideogames = async () => {
     let videogamesApi = [];
 
-    for (let i = 1; i < 10; i++) {
+    for (let i = 1; i < 6; i++) {
         const { data } = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=${i}&page_size=25`);
 
         videogamesApi.push(...data.results);
@@ -114,16 +114,13 @@ const getVideogamesByName = async (name) => {
 
     videogamesApi = cleanData(videogamesApi);
 
-
-
     videogamesApi.sort((a, b) => {
-        // Obtenemos la longitud de la subcadena común más larga
         const commonLengthA = getCommonSubstringLength(a.name.toLowerCase(), name.toLowerCase());
         const commonLengthB = getCommonSubstringLength(b.name.toLowerCase(), name.toLowerCase());
 
-        // Comparamos la longitud de la subcadena común
         return commonLengthB - commonLengthA;
     });
+
     videogamesApi.sort((a, b) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();

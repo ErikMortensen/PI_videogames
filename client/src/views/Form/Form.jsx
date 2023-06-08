@@ -7,8 +7,6 @@ import {validateInput, validateForm} from "./validate";
 import style from "./Form.module.css";
 
 
-
-
 export const Form = () => {
   const initialErrors = {
       name: '',
@@ -50,14 +48,13 @@ export const Form = () => {
   
   useEffect(() => {
     dispatch(getGenres());
-
     return () => cleanForm;
   }, []);
   
   const genres = useSelector(state=>state.genres);
 
   const handlerChange = (e) => {
-    const validated = validateInput({
+    validateInput({
       ...form,
       [e.target.name]: e.target.value
     },setErrors,errors);
@@ -118,17 +115,15 @@ export const Form = () => {
   const handlerSubmit = (e) => {
     e.preventDefault();
     
-    try { 
-      if(validatedForm){
-        axios.post('http://localhost:3001/videogames', form)
-          .then(res => alert(`The game has been created successfully!`));
-          setErrors(initialErrors);
-          cleanForm();
-      } else {
-        alert('Campos del formulario con errores!');
-      }
-    } catch ({message}) {
-      alert(message);
+    if(validatedForm){
+      axios.post('http://localhost:3001/videogames', form)
+        .then(res => alert(res.data.message))
+        .catch(res => alert(res.message));
+        
+        setErrors(initialErrors);
+        cleanForm();
+    } else {
+      alert('Campos del formulario con errores!');
     }
   };
 

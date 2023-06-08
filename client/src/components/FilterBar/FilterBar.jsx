@@ -38,12 +38,6 @@ export const FilterBar = ({currentPage,setCurrentPage}) => {
         }));
     };
 
-    useEffect(() => {
-        dispatch(filters(selectGenreValue, selectOriginValue, selectedOption));
-        setCurrentPage(currentPage=1);
-    }, [selectGenreValue,selectOriginValue,selectedOption]);
-    
-
     const handlerSelectGenreChange = (e) =>{
         setSelectGenreValue(e.target.value);
     };
@@ -60,6 +54,11 @@ export const FilterBar = ({currentPage,setCurrentPage}) => {
         setSelectOriginValue('all');
         setCurrentPage(currentPage=1);
     };
+
+    useEffect(() => {
+        dispatch(filters(selectGenreValue, selectOriginValue, selectedOption));
+        setCurrentPage(currentPage=1);
+    }, [selectGenreValue,selectOriginValue,selectedOption]);
 
     return (
         <div >

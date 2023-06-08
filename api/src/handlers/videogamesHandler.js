@@ -39,7 +39,7 @@ const createVideogamehandler = async (req, res) => {
 
     try {
         const newVideogame = await createVideogame(name, description, platforms, image, released, rating, genres);
-        res.status(201).json(newVideogame);
+        res.status(201).json({ message: 'The game has been created successfully!' });
     } catch ({ message }) {
         res.status(400).json({
             error: message

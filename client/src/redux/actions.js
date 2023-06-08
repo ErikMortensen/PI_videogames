@@ -36,22 +36,22 @@ const sortByProperty = (properties, data) => {
     if (NameAsc === 'NameAsc') {
         sorted = [...sorted].sort((a, b) => {
             if (a.name < b.name) {
-                return -1; // a debe ser ordenado antes que b
+                return -1;
             } else if (a.name > b.name) {
-                return 1; // a debe ser ordenado después que b
+                return 1;
             } else {
-                return 0; // a y b son iguales en términos de ordenación
+                return 0;
             }
         });
     }
     if (NameDesc === 'NameDesc') {
         sorted = [...sorted].sort((a, b) => {
             if (b.name < a.name) {
-                return -1; // a debe ser ordenado antes que b
+                return -1;
             } else if (b.name > a.name) {
-                return 1; // a debe ser ordenado después que b
+                return 1;
             } else {
-                return 0; // a y b son iguales en términos de ordenación
+                return 0;
             }
         });
     }
@@ -63,11 +63,12 @@ const sortByProperty = (properties, data) => {
     }
 
     return sorted;
-}
+};
 
 export const filters = (genre, origin, properties) => {
     return async function (dispatch, getState) {
         const state = getState();
+
         let filtered = genre === 'all'
             ? state.gamesCopy
             : state.gamesCopy.filter(game => game.genres.includes(genre));
