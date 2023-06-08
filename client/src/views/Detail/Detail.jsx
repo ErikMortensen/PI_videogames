@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useParams, Link} from "react-router-dom";
 import axios from "axios";
 import { NavBar } from "../../components/NavBar/NavBar";
-import styles from "./Detail.module.css";
+import style from "./Detail.module.css";
 
 
 export const Detail = () => {
@@ -27,29 +27,27 @@ export const Detail = () => {
     fetchData();
 
     return () => setVideogameDetail({});
-}, [id]);
+  }, [id]);
 
   return (
-    <div className={styles.detail}>
+    <>
       <NavBar searchBar={false}/>
-      <div className={styles.background} style={{
-      // backgroundImage: `url(${image})`,
-      // backgroundImage: `radial-gradient(circle, rgba(17,17,17,0.8) 0%, rgba(17,17,17,0.85) 50%,rgba(17,17,17,0.9) 100%), url(${image})`,
-    }}></div>
-
-      <Link to='/home'>Volver</Link>
-      <h3>ID: {id}</h3>
-      <h3>Name: {name}</h3>
-      <h3>Platforms: {platforms?.map(platform => {
-                        return <h5>{platform}</h5>
-                      })}</h3>
-      <h3>Description: {description}</h3>
-      <h3>Realeased: {released}</h3>
-      <h3>Rating: {rating}</h3>
-      <h3>Genres: {genres?.map(genre => {
-                    return <h5>{genre}</h5>
-                  })}</h3>
-      <img src={image} alt="imagen videogame" />
-    </div>
+      <div className={style.detailContainer}>
+              <img src={image} alt="Imagen del juego" 
+              style={{ backgroundSize: "cover", width: "100%", height: "100%" }}/>
+      <Link className={style.detailLink} to='/home'>Go back</Link>
+      </div>
+          <div className={style.column}>
+          <div className={style.columnContent}>
+            <h1>{name}</h1>
+            <h2 className={style.textRight}>Released: {released}</h2>
+            <h2 className={style.textLeft}>Rating: {rating}</h2>
+            <p>{description}</p>
+              <h3 className={style.genres}>Genres: {genres?.map(genre => {
+                return <h5>{genre}</h5>
+              })}</h3>
+          </div>
+          </div>
+    </>
   )
 }

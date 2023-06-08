@@ -11,5 +11,5 @@ export const NavBar = ({handleChange, searchBar}) => {
         </form>}
 
     </div>
-  )
+  );
 }
