@@ -1,0 +1,35 @@
+.filterContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    background: rgb(0,1,36);
+    background: linear-gradient(0deg, rgba(0,1,36,1) 0%, rgba(7,81,151,1) 70%, rgba(63,63,142,1) 100%, rgba(13,146,245,0.9612219887955182) 100%);
+}
+
+
+.filterContainer select{
+  outline: 0 none;
+}
+
+.filterContainer button{
+    display: block;
+}
+
+.genderSelect label,
+.originSelect label{
+    margin-right: 10px;
+}
+.orderNameSelect p,
+.orderRatingSelect p{
+    margin-bottom: 10px;
+}
+
+.orderNameSelect div,
+.orderRatingSelect div{
+    margin-bottom: 5px;
+}
+
+
+

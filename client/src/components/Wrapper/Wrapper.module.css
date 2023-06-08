@@ -1,0 +1,18 @@
+.paginationContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.paginationContainer button{
+    margin: 10px;
+}
+.paginationContainer button:hover{
+    text-transform: 1.05;
+}
+
+.paginationContainer button:active {
+    background-color: #35333a;
+    transform: translateY(2px); 
+  }

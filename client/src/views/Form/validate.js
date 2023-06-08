@@ -42,9 +42,9 @@ export const validateInput = (form, setErrors, errors) => {
         setErrors(errors);
     }
 
-    // valido que la url de la imagen tenga entre 6 y 50 caracteres
-    if ((form.image.length < 6 && form.image.length !== 0) || form.image.length > 50) {
-        errors = { ...errors, image: 'Image url must be between 6 and 50 characters.' };
+    // valido que la url de la imagen tenga entre 6 y 150 caracteres
+    if ((form.image.length < 6 && form.image.length !== 0) || form.image.length > 150) {
+        errors = { ...errors, image: 'Image url must be between 6 and 150 characters.' };
         setErrors(errors);
         validated = false;
     } else {
@@ -52,9 +52,9 @@ export const validateInput = (form, setErrors, errors) => {
         setErrors(errors);
     }
 
-    // valido que description tenga entre 10 y 150 caracteres
-    if ((form.description.length < 10 && form.description.length !== 0) || form.description.length > 150) {
-        errors = { ...errors, description: 'The description must have between 10 and 100 characters.' };
+    // valido que description tenga entre 10 y 250 caracteres
+    if ((form.description.length < 10 && form.description.length !== 0) || form.description.length > 250) {
+        errors = { ...errors, description: 'The description must have between 10 and 250 characters.' };
         setErrors(errors);
         validated = false;
     } else {

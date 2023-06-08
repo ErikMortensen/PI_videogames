@@ -1,10 +1,10 @@
 .cardsContainer{
-    margin: 15px;
     padding: 10px;
-    border: 1px solid black;
     display: flex;
     flex-direction: row;
-    border-radius: 10px;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1em;
+    background: rgb(0,1,36);
+    background: linear-gradient(180deg, rgba(0,1,36,1) 25%, rgba(7,81,151,1) 74%, rgba(63,63,142,1) 100%, rgba(13,146,245,0.9612219887955182) 100%);
 }
