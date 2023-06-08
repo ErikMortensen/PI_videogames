@@ -48,11 +48,17 @@ export const Home = () => {
       dispatch(getVideogames());
       dispatch(getGenres());
     }, []);
-    
+
   return (
     <div>
       <NavBar handleChange={handleChange} searchBar={true}/>
       <FilterBar currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+      <div>
+        {
+          
+          ((!searchString && items.length === 0) || (items.length !== 0 && searchString && filtered.length === 0)) && <h2>Cargando...</h2>
+        }
+      </div>
       <CardsContainer games={(!searchString) ? items : filtered}/>
       <Wrapper currentPage={currentPage} handlerNext={handlerNext} handlerPrev={handlerPrev}/>
     </div>
