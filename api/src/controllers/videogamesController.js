@@ -25,7 +25,7 @@ const cleanData = (data, source = 'api') => {
         return {
             id: data.id,
             name: data.name,
-            description: data.description,
+            description: data.description.replace(/<\/?p>|<br\s*\/?>/gi, ""),
             platforms: data.platforms?.map(p => p.platform.name),
             image: data.background_image,
             released: data.released,
