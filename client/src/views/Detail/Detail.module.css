@@ -112,6 +112,9 @@
 	position: absolute;
 	top: 20px;
 	right: 20px;
-	color: white;
+	color: red;
+	font-size: 20px;
+	background-color: rgba(247, 244, 244, 0.5);
+
   }
   
