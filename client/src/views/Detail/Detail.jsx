@@ -12,6 +12,7 @@ export const Detail = () => {
   const {name, platforms, description, released, rating, genres,image} =  videogameDetail;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchData = async () => {
         try {
             const { data } = await axios(`http://localhost:3001/videogames/${id}`);
@@ -20,7 +21,6 @@ export const Detail = () => {
             }
         } catch (error) {
             window.alert('There is no videogame with that ID');
-            // navigate('/home');
         }
     };
 
@@ -43,9 +43,12 @@ export const Detail = () => {
             <h2 className={style.textRight}>Released: {released}</h2>
             <h2 className={style.textLeft}>Rating: {rating}</h2>
             <p>{description}</p>
-              <h3 className={style.genres}>Genres: {genres?.map(genre => {
-                return <h5>{genre}</h5>
-              })}</h3>
+            <h3 className={style.genres}>Platforms: {platforms?.map(platform => {
+              return <h5>{platform}</h5>
+            })}</h3>
+            <h3 className={style.genres}>Genres: {genres?.map(genre => {
+              return <h5>{genre}</h5>
+            })}</h3>
           </div>
           </div>
     </>

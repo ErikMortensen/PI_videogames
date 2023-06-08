@@ -68,11 +68,10 @@ export const FilterBar = ({currentPage,setCurrentPage}) => {
                     <label htmlFor="">Genre</label>
                     <select name="genres" id="" onChange={handlerSelectGenreChange} value={selectGenreValue}>
                         <option value='all'>All</option>
-
                         {
                             genres.map(genre => {
                                 return(
-                                    <option value={genre.name}>{genre.name}</option>
+                                    <option key={genre.name} value={genre.name}>{genre.name}</option>
                                     )
                                 })
                             }
