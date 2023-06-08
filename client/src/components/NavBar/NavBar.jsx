@@ -6,7 +6,9 @@ export const NavBar = ({handleChange, searchBar}) => {
   return (
     <div className={style.navbar}>
       <div className={style.icon}>
+        <Link to="/">
           <img src={logo} alt="logo" />
+        </Link>
       </div>
       <div>
           <Link className={style.link} to="/home">Home</Link>
@@ -20,17 +22,5 @@ export const NavBar = ({handleChange, searchBar}) => {
         </form>}
       </div>
     </div>
-    // <div className={style.navBarContainer}>
-    //   <div className={style.navBarMenu}>
-    //       <img src={logo} alt="logo" />
-    //       <Link className={style.navBarLink} to="/home">Home</Link>
-    //       <Link className={style.navBarLink} to="/create">Create</Link>
-    //   </div>
-    //   <div>
-    //     { searchBar && <form>
-    //       <input type="search" name="" id="" placeholder="Search..." onChange={handleChange}/>
-    //     </form>}
-    //   </div>
-    // </div>
   );
 }

@@ -60,7 +60,11 @@ export const Home = () => {
         }
       </div>
       <CardsContainer games={(!searchString) ? items : filtered}/>
-      <Wrapper currentPage={currentPage} handlerNext={handlerNext} handlerPrev={handlerPrev}/>
+      {
+        // (!items.length === 0 || !filtered.length === 0) && <Wrapper currentPage={currentPage} handlerNext={handlerNext} handlerPrev={handlerPrev}/>
+        (items.length !== 0) && <Wrapper currentPage={currentPage} handlerNext={handlerNext} handlerPrev={handlerPrev}/>
+      }
+      {/* <Wrapper currentPage={currentPage} handlerNext={handlerNext} handlerPrev={handlerPrev}/> */}
     </div>
   )
 }
