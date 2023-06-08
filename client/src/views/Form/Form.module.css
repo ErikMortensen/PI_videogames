@@ -6,8 +6,18 @@
   background-repeat: no-repeat;
 } */
 
+.bodyCreate{
+  background: rgb(0,1,36);
+  background: linear-gradient(180deg, rgba(0,1,36,0.8) 25%, rgba(7,81,151,1) 74%, rgba(63,63,142,1) 100%, rgba(13,146,245,0.9612219887955182) 100%);
+  width: 100%;
+  height: 100%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+}
+
 .form {
-    background-color: rgba(184, 185, 187, 0.9);
+    background-color: rgba(184, 185, 187, 0.5);
     background-blend-mode: overlay;
     border-radius: 5px;
     color: black;
@@ -152,4 +162,9 @@
 
   .childSpans span{
     flex-basis: 50%;
+  }
+
+  .form textarea{
+    resize: none;
+    height: 120px;
   }
