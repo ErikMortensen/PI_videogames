@@ -1,4 +1,4 @@
-const { getVideogames, createVideogame, getVideogamesByName, getVideogamesById } = require("../controllers/videogamesController");
+const { getVideogames, createVideogame, getVideogamesByName, getVideogamesById, deleteVideogameById } = require("../controllers/videogamesController");
 
 const getVideogamesHandler = async (req, res) => {
     const { name } = req.query;
@@ -47,10 +47,24 @@ const createVideogamehandler = async (req, res) => {
     }
 }
 
+const deleteVideogameHandler = async (req, res) => {
+    const { id } = req.params;
+
+    if (isNaN(id)) {
+        try {
+            const resp = await deleteVideogameById(id);
+            res.status(200).json({ message: resp });
+        } catch ({ message }) {
+            res.status(400).json({ error: message });
+        }
+    }
+    // res.status(404).json({ message: `Can't delete this video game.` });
+};
+
 
 module.exports = {
     getVideogamesHandler,
     createVideogamehandler,
-    // getVideogamesByNameHandler,
-    getVideogamesByIdHandler
+    getVideogamesByIdHandler,
+    deleteVideogameHandler
 };

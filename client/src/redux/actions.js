@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, CLEAN_FILTERS, FILTER } from "./actions-types";
+import { GET_GENRES, GET_GAMES, GET_GAMES_BY_NAME, CLEAN_FILTERS, FILTER, DELETE } from "./actions-types";
 
 export const getVideogames = () => {
     return async function (dispatch) {
@@ -92,4 +92,10 @@ export const cleanFilters = () => {
     };
 };
 
+export const deleteVideogame = (id) => {
+    return async function (dispatch) {
+        const res = await axios.delete(`http://localhost:3001/videogames/${id}`);
+
+    }
+}
 

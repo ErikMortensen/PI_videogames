@@ -71,6 +71,7 @@ const getVideogames = async () => {
     }
 
     videogamesApi = cleanData(videogamesApi);
+
     let videogamesDB = await Videogame.findAll({
         attributes: {
             exclude: ['description']
@@ -174,13 +175,31 @@ const createVideogame = async (name, description, platforms, image, released, ra
         return newVideogame;
     }
     throw Error(`The game with the name '${name}' already exists!`);
+};
 
+const deleteVideogameById = async (id) => {
+    try {
+        const videogame = await Videogame.findOne({
+            where: { id: id }
+        });
+        if (!videogame) throw Error('Videogame not found');
 
+        await videogame.removeGenres();
+
+        await Videogame.destroy({
+            where: { id }
+        });
+    } catch (error) {
+        return `Error deleting Videogame: ${error.message}`;
+    }
+
+    return 'Videogame deleted successfully';
 };
 
 module.exports = {
     getVideogames,
     getVideogamesById,
     getVideogamesByName,
-    createVideogame
+    createVideogame,
+    deleteVideogameById
 };
